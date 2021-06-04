@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+      svg {
+        display:block;
+        margin:auto;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script>
+        const margin = { top: 200, left: 50, bottom: 80, right: 50 },
+          width = 960 - margin.right - margin.left,
+          height = 650 - margin.top - margin.bottom,
+          padding = 3;
+
+          const svg = d3.select("body")
+                      .append("svg")
+                      .attr("width",width+margin.left+margin.right)
+                      .attr("height",height+margin.top+margin.bottom)
+                      .style("background-color","#e2e4e7")
+                      .append("g")
+                      .attr("transform",`translate(${margin.left},${margin.top})`)
+                      
+
+        d3.json("/data/humanFamilyTree.json").then(function(data){
+
+          svg.append("text")
+             .attr("x",width/2)
+             .attr("y",-150)
+             .text("Phylogeny")
+             .style("font-size","2.5em")
+             .style("text-anchor","middle")
+
+          const root = d3.hierarchy(data)
+                 .sort((a,b)=>(a.height-b.height))
+                 
+                root.dx = -5;
+                root.dy = 100;
+
+          const cluster = d3.cluster().nodeSize([root.dx-5*10,root.dy])(root)
+
+          const link = svg.append("g")
+                          .attr("transform",`translate(${width/2-300},${height/2+120})`)
+                          .attr("fill","transparent")
+                          .attr("stroke","purple")
+                          .attr("stroke-width",2.5)
+                          .selectAll("path")
+                          .data(root.links())
+                          .join("path")
+                          .attr("class","path")
+                          .attr("d",d=>
+                                `M${d.target.y},${d.target.x}
+                                 C${d.source.y + root.dy / 2},${d.target.x}
+                                  ${d.source.y + root.dy / 2},${d.source.x}
+                                  ${d.source.y},${d.source.x}`)
+                          .attr("stroke-dasharray",function(){
+                                 return pathLength =this.getTotalLength()
+                          })
+                          .transition()
+                          .delay((d,i)=>i*500)
+                          .attr("stroke-dasharray",pathLength)
+                          .transition()
+                          .attr("stroke-dasharray",0)
+                          .transition()
+                          .attr("stroke-dasharray",0)
+     
+  
+          const label = svg.append("g")
+                  .attr("transform",`translate(${width/2-300},${height/2+120})`)
+                  .selectAll("g")
+                  .data(root.descendants())
+                  .join("g")
+                  .attr("transform", d => `translate(${d.y},${d.x})`)
+  
+                label.append("text")
+                     .attr("x",d=>d.children?-6:6)
+                     .text(d=>d.data.name)
+                     .style("font-size","1.3em")
+                     .attr("text-anchor", (d,i)=>d.children?"end":"start")
+                     .style("opacity",0)
+                     .transition()
+                     .duration(2000)
+                     .delay((d,i)=>i*400)
+                     .style("opacity",1)
+                      
+                    
+        })
+    </script>
+  </body>
+</html>
