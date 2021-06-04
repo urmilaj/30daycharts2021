@@ -28,7 +28,7 @@
                       .attr("transform",`translate(${margin.left},${margin.top})`)
                       
 
-        d3.json("/data/humanFamilyTree.json").then(function(data){
+        d3.json("data/humanFamilyTree.json").then(function(data){
 
           svg.append("text")
              .attr("x",width/2)
