@@ -2,17 +2,37 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-    <title></title>
+    <title>Phylogeny</title>
     <style>
+      body {
+        background-color: #d5d7da;
+        margin: auto;
+      }
+      header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        line-height: 2em;
+      }
       svg {
         display:block;
         margin:auto;
       }
+      p{
+        text-align:center;
+        margin:auto;
+        font-size: 1.3em;
+        width:950px;
+      }
     </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
   </head>
   <body>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <header>Week 1: Comparisons. Day 1: Part to Whole.</header>
+    <br>
+    <p>A visualization showing the evolution of humans. This dendogram shows Catarrhini also known as Old World Monkeys split into Cercopithecoidea and Hominoidea. Hominoidea also known as apes split into great apes and gibbons. Great apes further evolved into homininae and orangutans. Homininae evolved into hominini and gorillas. Finally, hominini evolved to current day humans and chimpanzees.</p>
+    <br>
+    
     <script>
         const margin = { top: 200, left: 50, bottom: 80, right: 50 },
           width = 960 - margin.right - margin.left,
@@ -38,7 +58,7 @@
              .style("text-anchor","middle")
 
           const root = d3.hierarchy(data)
-                 .sort((a,b)=>(a.height-b.height))
+                         .sort((a,b)=>(a.height-b.height))
                  
                 root.dx = -5;
                 root.dy = 100;
@@ -54,7 +74,7 @@
                           .data(root.links())
                           .join("path")
                           .attr("class","path")
-                          .attr("d",d=>
+                          .attr("d",d=> 
                                 `M${d.target.y},${d.target.x}
                                  C${d.source.y + root.dy / 2},${d.target.x}
                                   ${d.source.y + root.dy / 2},${d.source.x}
@@ -92,5 +112,8 @@
                     
         })
     </script>
+    <br>
+    <footer><p>Data Credit:
+      <a href="https://en.wikipedia.org/w/index.php?title=Ape&oldid=1014651447" target="_blank"> Ape. In Wikipedia, The Free Encyclopedia.</a></p></footer>
   </body>
 </html>
