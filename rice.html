@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Rice Varieties</title>
+    <style>
+        body {
+        background-color: #e9e4e0;
+        margin: auto;
+      }
+
+      header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        line-height: 2em;
+      }
+
+      svg {
+        display:block;
+        margin:auto;
+      }
+
+      p{
+        text-align:center;
+        margin:auto;
+        font-size: 1.3em;
+        width:950px;
+      }
+
+      .tooltip{
+        max-width: 150px;
+        position: fixed;
+        background-color: white;
+        padding: 5px;
+        pointer-events: none;
+        border:solid;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 1: Comparisons. Day 2: Pictogram.</header>
+    <br>
+    <p>A pictogram visualization of rice varities of different countries. One rice grain indicates one rice variety. The data is volunteer sourced and does not fully indicate official rice cultivars. But it was interesting to visualize the data for India which includes 613 rice varieties. Indonesia stands second with 74 varieties and Malaysia placing third, with 54 rice varieties.</p>
+    <br>
+    <p>Hover over a rice grain to see it's name.</p>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+          width = 960 - margin.right - margin.left,
+          height = 2450 - margin.top - margin.bottom,
+          padding = 3;
+
+    const svg = d3.select("body")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`);
+
+    const tooltip = d3.select("body")
+                    .append("div")
+                    .attr("class","tooltip")
+                    .style("visibility","hidden");
+                  
+    d3.csv("data/rice.csv").then(function(data){
+
+        const group = d3.group(data,d=>d.country);
+
+        const scale = d3.scaleLinear()
+                        .domain([0,10])
+                        .range([0,100]); 
+
+        const title = svg.append("g")
+                         .attr("transform",`translate(${width/2},0)`)
+                         .append("text")
+                         .style("fill","#f58b11")
+                         .style("text-anchor","middle")
+                         .style("font-size","2em")
+                         .text("Rice Varieties: Rest of the World vs India.");
+
+        const ricePath = "m422.296875 189.652344c43.738281 43.738281 43.738281 114.652344 0 158.390625-43.738281-43.738281-43.738281-114.652344 0-158.390625zm0 0";
+
+        svg.append("defs")
+           .append("g")
+           .attr("id","rice")
+           .append("path")
+           .attr("d",ricePath);
+
+        const multiple = svg.append("g")
+                            .attr("transform",`translate(${width/2-120},10)`)
+                            .selectAll("country")
+                            .data(group)
+                            .join("g")
+                            .attr("transform",(d,i) => `translate(0,${i<17?i*45:i*100-900})`)
+        
+        const rice = multiple.append("g").attr("transform",`translate(0,0)`)
+
+        rice.append("g")
+            .selectAll("use")
+            .data(d => d[1])
+            .join("use")
+            .attr("href","#rice")
+            .style("stroke","black")
+            .style("stroke-width",8)
+            .style("fill","#e0a871")
+            .attr("transform", (d,i) => `translate(${scale(i%10*1.5)},${scale(Math.floor(i/10))}) scale(0.12)`)
+            .on("mousemove", function(event,d){
+                d3.select(this)
+                  .style("opacity",1)
+                  .attr("stroke-width",3);
+
+                tooltip.transition()
+                       .duration(200)
+                       .style("visibility","visible")
+
+                tooltip.html(d.variety)
+                       .style("left",(event.x)+10+"px")
+                       .style("top",(event.y)+"px");
+            })
+            .on("mouseout", function(event,d){
+                d3.select(this)
+                  .style("opacity",1)
+                  .attr("stroke-width",2.5);
+
+                tooltip.transition().style("visibility","hidden");
+            })
+
+        const labels = rice.append("g")
+                           .append("text")
+                           .attr("x",width/2-450)
+                           .attr("y",38)
+                           .style("text-anchor","end")
+                           .style("font-size","1.2em")
+                           .text(d => d[0]);
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://en.wikipedia.org/wiki/List_of_rice_cultivars" target="_blank">
+                Wikipedia:List of rice cultivars.
+            </a>
+            Icons made by 
+            <a href="https://www.flaticon.com/authors/pause08" target="_blank" title="Pause08">
+                Pause08</a> from <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">
+                    www.flaticon.com
+            </a>
+        </p>
+    </footer>
+    <br>
+  </body>
+</html>
