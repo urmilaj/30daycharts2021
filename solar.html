@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Solar Maxima and Human Excitability</title>
+    <style>
+        header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        }
+
+        svg {
+            display: block;
+            margin: auto;
+            border: 3px solid #640e50;
+        }
+
+        p {
+            text-align: center;
+            margin: auto;
+            font-size: 1.3em;
+            width: 950px;
+        }
+
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  </head>
+  <body>
+    <header>Week 1: Comparisons. Day 4: Magical.</header>
+    <br>
+    <p>Alexander Tchijevsky, a Russian scientist noticed that more severe battles during World War I occurred during peak sunspot periods. He conducted a thorough study of global human history dating back to 1749 and compared the period to the solar cycles through the period.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 100, left: 60, bottom: 50, right: 50 },
+        width = 950 - margin.right - margin.left,
+        height = 850 - margin.top - margin.bottom;
+    
+    const svg = d3.select("body")
+        .append("svg")
+        .attr("width",width+margin.left+margin.right)
+        .attr("height",height+margin.top+margin.bottom)
+        .style("background-color","#e2e4e7")
+        .append("g")
+        .attr("transform",`translate(${margin.left},${margin.top})`);
+
+    svg.append("text")
+        .attr("x",width/2)
+        .attr("y",-30)
+        .text("Solar Maxima and Human Excitability.")
+        .style("fill","#640e50")
+        .style("font-size","2.5em")
+        .style("font-weight","bold")
+        .style("text-anchor","middle");
+
+    const formatYear = d3.timeParse("%Y");
+
+    d3.csv("data/solar.csv").then(function(data){
+    
+    const x = d3.scaleTime()
+        .domain(d3.extent(data,d=>formatYear(+d.Year)))
+        .range([margin.left,width-margin.right])
+
+    const y = d3.scaleLinear()
+        .domain([0,d3.max(data,d=>+d.Wolf)])
+        .range([height-margin.left,margin.top+100])
+                  
+    const xAxis = g => g.attr("transform",`translate(0,${height-margin.bottom})`)
+        .call(d3.axisBottom(x))
+
+    const yAxis = g => g.attr("transform",`translate(${margin.left},0)`)
+        .call(d3.axisLeft(y))
+
+    const line = d3.line()
+        .x(d=>x(formatYear(+d.Year)))
+        .y(d=>y(+d.Wolf))
+
+    svg.append("g")
+        .call(xAxis)
+        .call(g => g.select(".domain").remove())
+        .style("color","#640e50")
+        .style("font-size","1em")
+        .style("font-weight","bold");
+
+    svg.append("text")
+        .attr("x",width/2)
+        .attr("y",height+10)
+        .text("Year")
+        .style("fill","#640e50")
+        .style("font-size","1.5em")
+        .style("font-weight","bold")
+        .style("text-anchor","middle");
+
+    svg.append("g")
+        .call(yAxis)
+        .call(g => g.select(".domain").remove())
+        .style("color","#640e50")
+        .style("font-size","1em")
+        .style("font-weight","bold")
+        .style("display","none");
+
+    svg.append("text")
+        .attr("transform","rotate(-90)")
+        .attr("x",-height/2-50)
+        .attr("y",-10)
+        .text("Wolf Number")
+        .style("fill","#640e50")
+        .style("font-size","1.5em")
+        .style("font-weight","bold")
+        .style("text-anchor","middle");
+
+    svg.append("path")
+        .datum(data)
+        .attr("fill","none")
+        .attr("stroke","#e99a66")
+        .attr("stroke-width", 2.5)
+        .attr("stroke-linejoin", "round")
+        .attr("stroke-linecap", "round")
+        .attr("d",line)
+
+    const annotate = [{
+        
+        type:d3.annotationCustomType(
+            d3.annotationLabel,
+            {"className":"custom",
+            "connector":{"end":"dot"},
+            "note":{"lineType":"horizontal",
+            "align":"right"}}),
+            note: {
+            label: "1.Third Battle of Panipat, 2.The British capture Pondichéry, India from the French. 3.An earthquake in London breaks chimneys in Limehouse and Poplar.",
+            wrap:120,
+            },
+            x:79,
+            y:455,
+            dx:0,
+            dy:-150,
+            color:"#640e50"
+    },
+    {
+        type:d3.annotationCustomType(
+            d3.annotationLabel,
+            {"className":"custom",
+            "connector":{"end":"dot"},
+            "note":{"lineType":"horizontal",
+            "align":"left"}}),
+            note: {
+            label: "1. Louis XVI of France declares war on the Kingdom of Great Britain.",
+            wrap:120,
+            },
+            x:133,
+            y:200,
+            dx:0,
+            dy:-60,
+            color:"#640e50"
+    },
+    {
+        type:d3.annotationCustomType(
+            d3.annotationLabel,
+            {"className":"custom",
+            "connector":{"end":"dot"},
+            "note":{"lineType":"horizontal",
+            "align":"middle"}}),
+            note: {
+            label: "Conflict erupts between the Second French Empire and the Kingdom of Prussia leading to the Franco-Prussian War in 1870.",
+            wrap:150,
+            },
+            x:424,
+            y:355,
+            dx:0,
+            dy:-150,
+            color:"#640e50"
+    },
+    {
+        type:d3.annotationCustomType(
+            d3.annotationCallout,
+            {"className":"custom",
+            "connector":{"end":"dot"},
+            "note":{"lineType":"horizontal",
+            "align":"right"}}),
+            note: {
+            label: " Partition of British Indian Empire into independent dominions, India and Pakistan, sectarian violence and refugee crises.",
+            wrap:150,
+            },
+            x:667,
+            y:340,
+            dx:0,
+            dy:-50,
+            color:"#640e50"
+    },
+    {
+      type:d3.annotationCustomType(
+          d3.annotationLabel,
+          {"className":"custom",
+          "connector":{"end":"dot"},
+          "note":{"lineType":"horizontal",
+          "align":"left"}}),
+          note: {
+          label: "Vice President Richard Nixon's goodwill tour of South America sparks open protests and rioting.",
+          wrap:150,
+          },
+          x:702,
+          y:290,
+          dx:0,
+          dy:-100,
+          color:"#640e50"
+    }
+  ].map(d=>{return d})
+  
+    const makeAnnot = d3.annotation()
+        .type(d3.annotationLabel)
+        .annotations(annotate)
+
+    svg.append("g")
+    .call(makeAnnot)
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://www.ngdc.noaa.gov/stp/solar/ssndata.html" target="_blank">
+                National Oceanic and Atmospheric Administration
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
