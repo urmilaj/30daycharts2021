@@ -8,3 +8,4 @@ The purpose of this repository is for providing the charts in vanilla format.
 - Day 1: Part to Whole. [Phylogeny](phylogeny.html)
 - Day 2: Pictogram. [Rice Varieties](rice.html)
 - Day 3: Historical. [On This Day](onthisday.html)
+- Day 4: Magical. [Solar Maxima and Human Excitability](solar.html)
