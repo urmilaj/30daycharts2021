@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Pyramids of Egypt</title>
+    <style>
+      header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        line-height: 2em;
+      }
+
+      p{
+        text-align:center;
+        margin:auto;
+        font-size: 1.3em;
+        width:950px;
+      }
+
+      svg {
+        display:block;
+        margin:auto;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  </head>
+  <body>
+    <header>Week 1: Comparisons. Day 5: Slope.</header>
+    <br>
+    <p>The pyramids in Egypt look like they have the same slope to the naked eye but on closer examination it's found that this is not true. Each pyramid has a unique slope. So how did they manage to build these pyramids? Egyptians measured slope in seked. Seked was based on egyptian length measure known as royal cubit. It was subdivided into seven palms, each of which was sub-divided into four digits. <br><b>The inclination of measured slopes was therefore expressed as the number of horizontal palms and digits relative to each royal cubit rise. <br> <br> For example seked slope of the Great Pyramid of Giza in Egypt is 5½, or 5 palms and 2 digits, in modern terms equivalent to a slope of 1.27.</p>
+    <br>
+    <div class="viz"></div>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+          width = 900 - margin.right - margin.left,
+          height = 1500 - margin.top - margin.bottom;
+
+    const svg = d3.select(".viz")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","#e2e4e7")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+
+    const texture = textures.lines()
+      .orientation("4/8")
+      .stroke("#e77d21")
+      .strokeWidth(8)
+
+    svg.call(texture)
+                  
+    d3.csv("data/pyramids.csv").then(function(data){
+ 
+      const triangle = d3.symbol()
+        .type(d3.symbolTriangle)
+        .size(d=>d.Size)
+
+      svg.append("g")
+        .attr("transform",`translate(${width/2},0)`)
+        .append("text")
+        .attr("text-anchor","middle")
+        .style("font-size","2.5em")
+        .style("font-weight","bold")
+        .style("fill","#e77d21")
+        .text("Pyramids of Egypt")
+
+      svg.append("g")
+        .attr("transform",`translate(${width/2},100)`)
+        .selectAll("path")
+        .data(data)
+        .join("path")
+        .attr("transform", (d,i) => `translate(0,${i*250})`)
+        .attr("d",triangle)
+        .style("fill",texture.url())
+        .style("stroke","#faac75")
+        .style("stroke-width",3)
+
+      svg.append("g")
+        .attr("transform",`translate(${width/2},100)`)
+        .selectAll("path")
+        .data(data)
+        .join("text")
+        .attr("transform", (d,i) => `translate(0, ${i*250})`)
+        .attr("y", (d,i) => i==3?83:55)
+        .attr("text-anchor","middle")
+        .text(d => d.Pyramid)
+
+      const annotate = [{
+        type:d3.annotationCustomType(
+          d3.annotationLabel,
+          {"className":"custom",
+          "connector":{"end":"dot"},
+          "note":{"lineType":"vertical",
+          "align":"middle"}}),
+          note: {
+          title:"Seked: 5 1/2" ,
+          label: "Slope: 51° 50' 35\", Tan: 1.2727",
+          wrap:150,
+          },
+          x:width/2,
+          y:0,
+          dx:100,
+          dy:0,
+          color:"#e77d21"},
+          {
+        type:d3.annotationCustomType(
+          d3.annotationLabel,
+          {"className":"custom",
+          "connector":{"end":"dot"},
+          "note":{"lineType":"vertical",
+          "align":"middle"}}),
+          note: {
+          title:"Seked: 7 2/5" ,
+          label: "Slope: 43° 22', Tan: 0.9446",
+          wrap:120,
+          },
+          x:width/2,
+          y:250,
+          dx:100,
+          dy:0,
+          color:"#e77d21"},
+          {
+        type:d3.annotationCustomType(
+          d3.annotationLabel,
+          {"className":"custom",
+          "connector":{"end":"dot"},
+          "note":{"lineType":"vertical",
+          "align":"middle"}}),
+          note: {
+          title:"Seked: 7 2/5" ,
+          label: "Slope: 43° 22', Tan: 0.9446",
+          wrap:120,
+          },
+          x:width/2,
+          y:500,
+          dx:100,
+          dy:0,
+          color:"#e77d21"},
+          {
+        type:d3.annotationCustomType(
+          d3.annotationLabel,
+          {"className":"custom",
+          "connector":{"end":"dot"},
+          "note":{"lineType":"vertical",
+          "align":"middle"}}),
+          note: {
+          title:"Seked: 5 1/2" ,
+          label: "Slope: 51° 50' 40\", Tan: 1.2728",
+          wrap:150,
+          },
+          x:width/2,
+          y:700,
+          dx:100,
+          dy:0,
+          color:"#e77d21"},
+          {
+        type:d3.annotationCustomType(
+          d3.annotationLabel,
+          {"className":"custom",
+          "connector":{"end":"dot"},
+          "note":{"lineType":"vertical",
+          "align":"middle"}}),
+          note: {
+          title:"Seked: 5 1/4" ,
+          label: "Slope: 53° 10', Tan: 1.3351",
+          wrap:120,
+          },
+          x:width/2-30,
+          y:980,
+          dx:130,
+          dy:0,
+          color:"#e77d21"},
+          {
+        type:d3.annotationCustomType(
+          d3.annotationLabel,
+          {"className":"custom",
+          "connector":{"end":"dot"},
+          "note":{"lineType":"vertical",
+          "align":"middle"}}),
+          note: {
+          title:"Seked: 5 3/5" ,
+          label: "Slope: 51° 20' 25\", Tan: 1.25",
+          wrap:150,
+          },
+          x:width/2-30,
+          y:1230,
+          dx:130,
+          dy:0,
+          color:"#e77d21"
+  },
+    
+].map(d=>{return d})
+
+const makeAnnot = d3.annotation()
+                      .type(d3.annotationLabel)
+                      .annotations(annotate)
+
+                      svg.append("g")
+    .attr("transform",(d,i)=>`translate(${margin.top},100)`)
+    .selectAll("g")
+    .data(data)
+    .join("g")
+    .attr("transform",(d,i)=>`translate(0,${i*250})`)
+    .call(makeAnnot)
+        
+    })
+    </script>
+    <footer>
+        <p>Data Credit: 
+            <a href="https://en.wikipedia.org/wiki/List_of_Egyptian_pyramids" target="_blank">
+              List of Egyptian pyramids. In Wikipedia, The Free Encyclopedia.
+            </a><br>
+            </p>
+            <p>Data Credit:
+            <a href="https://egypt.hitchins.net/pyramid-myths/pyramids-have-different.html" target="_blank">
+              Pyramids have Different Slopes by D K Hitchins
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
