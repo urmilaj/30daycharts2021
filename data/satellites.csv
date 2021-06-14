@@ -1,0 +1,91 @@
+﻿name,date,mass,vehicle,application,description
+GSAT-30,"Jan 17, 2020",3357,Ariane-5 VA-251,Communication,-
+GSAT-31,"Feb 06, 2019",2536,Ariane-5 VA-247,Communication,-
+GSAT-11 Mission,"Dec 05, 2018",5854,Ariane-5 VA-246,Communication,-
+GSAT-29,"Nov 14, 2018",3423,GSLV Mk III-D2 / GSAT-29 Mission,Communication,-
+GSAT-17,"Jun 29, 2017",3477,Ariane-5 VA-238,Communication,-
+GSAT-19,"Jun 05, 2017",3136,GSLV Mk III-D1/GSAT-19 Mission,Communication,-
+GSAT-9,"May 05, 2017",2230,GSLV-F09 / GSAT-9,Communication,-
+GSAT-18,"Oct 06, 2016",3404,Ariane-5 VA-231,Communication,-
+GSAT-15,"Nov 11, 2015",3164,Ariane-5 VA-227,Communication,-
+GSAT-6,"Aug 27, 2015",2117,GSLV-D6,Communication,-
+GSAT-16,"Dec 07, 2014",3181.6,Ariane-5 VA-221,Communication,-
+GSAT-14,"Jan 05, 2014",1982,GSLV-D5/GSAT-14,Communication,-
+GSAT-7,"Aug 30, 2013",2650,Ariane-5 VA-215,Communication,-
+GSAT-10,"Sep 29, 2012",3400,Ariane-5 VA-209,Communication,-
+GSAT-12,"Jul 15, 2011",1410,PSLV-C17/GSAT-12,Communication,-
+GSAT-8,"May 21, 2011",3093,Ariane-5 VA-202,Communication,-
+GSAT-5P,"Dec 25, 2010",2310,GSLV-F06 / GSAT-5P,Communication,-
+GSAT-4,"Apr 15, 2010",2220,GSLV-D3 / GSAT-4,Communication,-
+INSAT-4CR,"Sep 02, 2007","2,130",GSLV-F04 / INSAT-4CR,Communication,-
+INSAT-4B,"Mar 12, 2007",3025,Ariane5,Communication,-
+INSAT-4A,"Dec 22, 2005",3081,Ariane5-V169,Communication,-
+EDUSAT,"Sep 20, 2004",1950.5,GSLV-F01 / EDUSAT(GSAT-3),Communication,-
+INSAT-3E,"Sep 28, 2003","2,775",Ariane5-V162,Communication,-
+GSAT-2,"May 08, 2003",1800,GSLV-D2 / GSAT-2,Communication,-
+INSAT-3A,"Apr 10, 2003","2,950",Ariane5-V160,Communication,-
+KALPANA-1,"Sep 12, 2002",1060,PSLV-C4 /KALPANA-1,Communication,-
+INSAT-3C,"Jan 24, 2002","2,650",Ariane5-V147,Communication,-
+GSAT-1,"Apr 18, 2001",1530,GSLV-D1 / GSAT-1,Communication,-
+INSAT-3B,"Mar 22, 2000","2,070",Ariane-5G,Communication,-
+INSAT-2E,"Apr 03, 1999","2,550",Ariane-42P H10-3,Communication,-
+INSAT-2D,"Jun 04, 1997",2079,Ariane-44L H10-3,Communication,-
+INSAT-2C,"Dec 07, 1995",2106,Ariane-44L H10-3,Communication,-
+INSAT-2B,"Jul 23, 1993",1906,Ariane-44L H10+,Communication,-
+INSAT-2A,"Jul 10, 1992",1906,Ariane-44L H10,Communication,-
+RISAT-2BR1,"Dec 11, 2019",628,PSLV-C48/RISAT-2BR1,Earth Observation,-
+RISAT-2B,"May 22, 2019",615,PSLV-C46 Mission,Earth Observation,-
+Cartosat-2 Series Satellite,"Jan 12, 2018",710,PSLV-C40/Cartosat-2 Series Satellite Mission,Earth Observation,-
+Cartosat-2 Series Satellite,"Jun 23, 2017",712,PSLV-C38 / Cartosat-2 Series Satellite,Earth Observation,-
+Cartosat -2 Series Satellite,"Feb 15, 2017",714,PSLV-C37 / Cartosat -2 Series Satellite,Earth Observation,-
+RESOURCESAT-2A,"Dec 07, 2016",1235,PSLV-C36 / RESOURCESAT-2A,Earth Observation,-
+SCATSAT-1,"Sep 26, 2016",371,PSLV-C35 / SCATSAT-1,Earth Observation,-
+INSAT-3DR,"Sep 08, 2016",2211,GSLV-F05 / INSAT-3DR,Earth Observation,-
+CARTOSAT-2 Series Satellite,"Jun 22, 2016",737.5,PSLV-C34 / CARTOSAT-2 Series Satellite,Earth Observation,-
+INSAT-3D,"Jul 26, 2013",2060,Ariane-5 VA-214,Earth Observation,-
+SARAL,"Feb 25, 2013",407,PSLV-C20/SARAL,Earth Observation,-
+RISAT-1,"Apr 26, 2012",1858,PSLV-C19/RISAT-1,Earth Observation,-
+Megha-Tropiques,"Oct 12, 2011",1000,PSLV-C18/Megha-Tropiques,Earth Observation,-
+RESOURCESAT-2,"Apr 20, 2011",1206,PSLV-C16/RESOURCESAT-2,Earth Observation,-
+CARTOSAT-2B,"Jul 12, 2010",694,PSLV-C15/CARTOSAT-2B,Earth Observation,-
+Oceansat-2,"Sep 23, 2009",960,PSLV-C14 / OCEANSAT-2,Earth Observation,-
+RISAT-2,"Apr 20, 2009",300,PSLV-C12 / RISAT-2,Earth Observation,-
+CARTOSAT – 2A,"Apr 28, 2008",690,PSLV-C9 / CARTOSAT – 2A,Earth Observation,-
+IMS-1,"Apr 28, 2008",83,PSLV-C9 / CARTOSAT – 2A,Earth Observation,-
+CARTOSAT-2,"Jan 10, 2007",650,PSLV-C7 / CARTOSAT-2 / SRE-1,Earth Observation,-
+CARTOSAT-1,"May 05, 2005",1560,PSLV-C6/CARTOSAT-1/HAMSAT,Earth Observation,-
+IRS-P6 / RESOURCESAT-1,"Oct 17, 2003",1360,PSLV-C5 /RESOURCESAT-1,Earth Observation,-
+The Technology Experiment Satellite (TES),"Oct 22, 2001",1108,PSLV-C3 / TES,Earth Observation,-
+Oceansat(IRS-P4),"May 26, 1999",1050,PSLV-C2/IRS-P4,Earth Observation,-
+IRS-1D,"Sep 29, 1997",1250,PSLV-C1 / IRS-1D,Earth Observation,-
+IRS-P3,"Mar 21, 1996",920,PSLV-D3 / IRS-P3,Earth Observation,-
+IRS-1C,"Dec 28, 1995",1250,Molniya,Earth Observation,-
+IRS-P2,"Oct 15, 1994",804,PSLV-D2,Earth Observation,-
+IRS-1E,"Sep 20, 1993",846,PSLV-D1,Earth Observation,-
+IRS-1B,"Aug 29, 1991",975,Vostok,Earth Observation,-
+SROSS-2,"Jul 13, 1988",150,ASLV-D2,Earth Observation,-
+IRS-1A,"Mar 17, 1988",975,Vostok,Earth Observation,-
+Rohini Satellite RS-D2,"Apr 17, 1983",41.5,SLV-3,Earth Observation,-
+Bhaskara-II,"Nov 20, 1981",444,C-1 Intercosmos,Earth Observation,-
+Rohini Satellite RS-D1,"May 31, 1981",38,SLV-3D1,Earth Observation,-
+Bhaskara-I,"Jun 07, 1979",442,C-1Intercosmos,Earth Observation,-
+INS-1C,"Jan 12, 2018",11,PSLV-C40/Cartosat-2 Series Satellite Mission,Experimental,"Data sent by this camera is useful for topographical mapping, vegetation monitoring, aerosol scattering studies and cloud studies."
+INS-1A,"Feb 15, 2017",8.4,PSLV-C37 / Cartosat -2 Series Satellite,Experimental,measures the Bidirectional Reflectance Distribution Function of the Earth surface and will take readings of the reflectance of different surface features due to Sun albedo.
+INS-1B,"Feb 15, 2017",9.7,PSLV-C37 / Cartosat -2 Series Satellite,Experimental,The INS 1B is a nanosatellites developed by ISRO. 
+YOUTHSAT,"Apr 20, 2011",92,PSLV-C16/RESOURCESAT-2,Experimental,"YOUTHSAT is a joint Indo-Russian stellar and atmospheric satellite mission with the participation of students from Universities at graduate, post graduate and research scholar level. Youthsat mission intends to investigate the relationship between solar variability and thermosphere-Ionosphere changes."
+APPLE,"Jun 19, 1981",670,Ariane -1(V-3),Experimental,"Apple was ISRO's first indigenous, experimental communication satellite. It was used to carry out extensive experiments on time, frequency and code division multiple access systems, radio networking computer interconnect, random access and pockets switching. experiments."
+Rohini Satellite RS-1,"Jul 18, 1980",35,SLV-3E2,Experimental,It provided data on the fourth stage of SLV. The satellite had mission life of 1.2 years and an orbital life of 20 months.
+Rohini Technology Payload (RTP),"Aug 10, 1979",35,SLV-3E1,Experimental,"The satellite contained instruments to monitor the flight performance of SLV-3, the first Indian launch vehicle. However the satellite could not be placed into its intended orbit."
+Aryabhata,"Apr 19, 1975",360,C-1 Intercosmos,Experimental,"Aryabhata was India's first satellite. It was built to conduct experiments in X-ray astronomy, aeronomics, and solar physics."
+SRE-1,"Jan 10, 2007",550,PSLV-C7 / CARTOSAT-2 / SRE-1,Experimental,"SRE – 1 intended to demonstrate the technology of an orbiting platform for performing experiments in micro gravity conditions. It carries two experiments, an Isothermal Heating Furnace (IHF) and a Bio-mimetic experiment."
+SROSS-C2,"May 04, 1994",115,ASLV-D4,Experimental,The SROSS-C2 spacecraft is one of the satellites included in the Interplanetary Network.
+SROSS-C,"May 20, 1992",106.1,ASLV-D3,Experimental,SROSS C and C2 carried a gamma-ray burst (GRB) experiment and a Retarded Potential Analyzer (RPA) experiment. The GRB experiment operated from 25 May 1992 until reentry on 14 July 1992.
+SROSS-1,"Mar 24, 1987",150,ASLV-D1,Experimental,"SROSS-1 is the first satellite in the Stretched Rohini Satellite Series. It carried a Gamma Ray Burst payload, Corner Cube Retro Reflector for laser tracking and launch vehicle monitoring platform. It did not reach the orbit."
+IRNSS-1I,"Apr 12, 2018",1425,PSLV-C41/IRNSS-1I,Navigation,-
+IRNSS-1G,"Apr 28, 2016",1425,PSLV-C33/IRNSS-1G,Navigation,-
+IRNSS-1F,"Mar 10, 2016",1425,PSLV-C32/IRNSS-1F,Navigation,-
+IRNSS-1E,"Jan 20, 2016",1425,PSLV-C31/IRNSS-1E,Navigation,-
+IRNSS-1D,"Mar 28, 2015",1425,PSLV-C27/IRNSS-1D,Navigation,-
+IRNSS-1C,"Oct 16, 2014",1425,PSLV-C26/IRNSS-1C,Navigation,-
+IRNSS-1B,"Apr 04, 2014",1432,PSLV-C24/IRNSS-1B,Navigation,-
+IRNSS-1A,"Jul 01, 2013",1425,PSLV-C22/IRNSS-1A,Navigation,-
