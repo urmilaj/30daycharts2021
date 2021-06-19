@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>India's live animal exports</title>
+    <style>
+      header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        }
+
+        svg {
+            display: block;
+            margin: auto;
+        }
+
+        p {
+            text-align: center;
+            margin: auto;
+            font-size: 1.3em;
+            width: 950px;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 2: Distributions. Day 8: Animals.</header>
+    <br>
+    <p>India's imports and exports data is made available by Ministry of Commerce and Industry. This chart displays India's live animal exports between the years 2011 to 2020 in lakhs, rupee.</p>
+    <br>
+    <div class="chart"></div>
+    <script>
+    
+    const margin = { top: 50, left: 20, bottom: 70, right: 20 },
+      width = 900 - margin.right - margin.left,
+      height = 390 - margin.top - margin.bottom;
+
+    chart = (data,title) => {
+      
+      const svg = d3.select(".chart")
+        .append("svg")
+        .attr("width",width+margin.left+margin.right)
+        .attr("height",height+margin.top+margin.bottom)
+        .style("background-color","#e6dee1")
+        .style("margin-top","10px")
+        .style("margin-bottom","20px")
+        .append("g")
+        .attr("transform",`translate(${margin.left},${margin.top})`)
+
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y", 0)
+        .attr("text-anchor","middle")
+        .style("font-weight","bold")
+        .style("font-size","1.8em")
+        .style("fill","#591d48")
+        .text(title)
+
+      svg.append("text")
+        .attr("x",width)
+        .attr("y", height+60)
+        .attr("text-anchor","end")
+        .style("font-weight","bold")
+        .style("fill","#591d48")
+        .text("(values are in lakhs, Indian Rupee)")
+
+      const x = d3.scaleBand()
+        .domain(data.map(d => +d.year))
+        .range([margin.left,width-margin.right])
+        .padding(0.05)
+
+      const xAxis = g => g.attr("transform",`translate(0,${height})`)
+        .call(d3.axisBottom(x))
+
+      const y = d3.scaleLinear()
+        .domain([0,d3.max(data, d => +d.value)])
+        .range([height,margin.top])
+
+      const yAxis = g => g.attr("transform",`translate(${margin.left},0)`)
+        .call(d3.axisLeft(y))
+        .style("display","none")
+
+      svg.append("g")
+        .call(xAxis)
+        .attr("stroke","#591d48")
+
+      svg.append("g")
+        .call(yAxis)
+
+      svg.selectAll("rect")
+        .data(data)
+        .join("rect")
+        .attr("x", d => x(+d.year))
+        .attr("y", d => y(+d.value))
+        .attr("width", x.bandwidth())
+        .attr("height", d => height - y(+d.value))
+        .attr("fill","#591d48")
+
+      svg.append("g")
+        .selectAll("text")
+        .data(data.filter(d => d.value!=0))
+        .join("text")
+        .attr("x", d => x(d.year)+3)
+        .attr("y",d => y(d.value)-5)
+        .style("fill","black")
+        .style("font-family","sans-serif")
+        .style("font-size","0.75em")
+        .text(d => "₹"+d.value)
+    }
+
+    Promise.all([
+    d3.csv("data/sheepAndGoats.csv"),
+    d3.csv("data/bovine.csv"),
+    d3.csv("data/swine.csv"),
+    d3.csv("data/poultry.csv"),
+    d3.csv("data/horses.csv")]).then(function(data){
+      let sheepAndgoats = data[0],
+      bovine = data[1],
+      swine = data[2],
+      poultry = data[3],
+      horses = data[4]
+
+     chart(sheepAndgoats,"Sheep and Goats")
+     chart(bovine,"Bovine")
+     chart(swine,"Swine")
+     chart(poultry,"Poultry")
+     chart(horses,"Horses")
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://tradestat.commerce.gov.in/eidb/Default.asp" target="_blank">
+              Government of India. Ministry of Commerce and Industry.
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
