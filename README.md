@@ -12,3 +12,4 @@ The purpose of this repository is for providing the charts in vanilla format.
 - Day 5: Slope. [Pyramids of Egypt](pyramids.html)
 - Day 6: Experimental [Indian Space Research Organisation's Experimental Satellites](satellites.html)
 - Day 7: Physical [Raja Ravi Varma's paintings](varma.html)
+- Day 8: Animals [India's live animal exports](exports.html)
