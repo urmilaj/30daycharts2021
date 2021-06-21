@@ -31,6 +31,17 @@
         fill:black;
         font-family: monospace ;
       }
+
+      .tooltip{
+        text-align: center;
+        max-width: 150px;
+        position: fixed;
+        background-color: white;
+        pointer-events: none;
+        border:solid black;
+        padding: 2px;
+        font-family: monospace;
+      }
     </style>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
@@ -53,8 +64,15 @@
                   .style("background-color","black")
                   .append("g")
                   .attr("transform",`translate(${margin.left},${margin.top})`)
+
+    const tooltip = d3.select("body")
+      .append("div")
+      .attr("class","tooltip")
+      .style("visibility","hidden")
                   
     d3.csv("data/bob.csv").then(function(data){
+
+      
 
       svg.append("text")
         .attr("x",width/2+20)
@@ -108,6 +126,22 @@
         .attr("stroke",d => d.Titanium_White==0?"#da7b16":"white")
         .attr("stroke-width",2)
         .attr("r",radius)
+        .on("mousemove",function (event,d){
+          d3.select(this).style("opacity",1).attr("stroke-width",3)
+                      
+          tooltip.transition()
+            .duration(200)
+            .style("visibility","visible")
+              
+          tooltip.html(`<h2>${d.painting_title}</h2><br/>`)
+          .style("transform","translateY(-55%)")  
+          .style("left",(event.x)+5+"px")
+          .style("top",(event.y)+"px")
+        })
+        .on("mouseout",function (event,d){
+          d3.select(this).style("opacity",1).attr("stroke-width",2)
+          tooltip.transition().style("visibility","hidden")
+        })
 
       const annotate = [{
         type : d3.annotationCustomType(
