@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bob Ross paintings</title>
+    <style>
+      header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        }
+
+        svg {
+            display: block;
+            margin: auto;
+        }
+
+        p {
+            text-align: center;
+            margin: auto;
+            font-size: 1.3em;
+            width: 920px;
+        }
+
+        .annotation-note-bg{
+          fill:white;
+          fill-opacity: 0.95;
+      }
+
+      .annotation-note-label {
+        fill:black;
+        font-family: monospace ;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  </head>
+  <body>
+    <header>Week 2: Distributions. Day 9: Statistics.</header>
+    <br>
+    <p>Bob Ross hosted the show called "The Joy of Painting". The show aired between 1983 and 1994, in the show Bob Ross would instruct viewers on painting various landscapes. This visualization is a beeswarm plot of the number of colours used in his paintings. The chart is interactive, click on any circle to be redirected to watch the instructional video of Bob Ross.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 60, bottom: 50, right: 80 },
+          width = 920 - margin.right - margin.left,
+          height = 1000 - margin.top - margin.bottom;
+
+    const svg = d3.select("body")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","black")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+                  
+    d3.csv("data/bob.csv").then(function(data){
+
+      svg.append("text")
+        .attr("x",width/2+20)
+        .attr("y",-10)
+        .text("A bee-swarm plot of colours used in Bob Ross paintings.")
+        .style("fill","white")
+        .style("text-anchor","middle")
+        .style("font-size","2em")
+
+      const padding = 2
+
+      const radius = 3.6
+
+      const y = d3.scaleLinear()
+      .domain(d3.extent(data,d=>+d.num_colors))
+      .range([height,margin.top])
+
+      const yAxis = g => g.attr("transform",`translate(${margin.left},0)`)
+        .call(d3.axisLeft(y))
+        .call(g => g.selectAll(".tick line")
+          .clone()
+          .style("stroke","#e0eddc")
+          .attr("stroke-opacity",0.4)
+          .attr("x2", width-margin.right))
+        .call(g => g.select(".domain").remove())
+
+      svg.append("g")
+        .call(yAxis)
+        .style("color","white")
+
+        const simulation = d3.forceSimulation(data)
+          .force("x",d3.forceX(width).strength(0.002))
+          .force("y",d3.forceY(d=>y(+d.num_colors)).strength(1))
+          .force("charge",d3.forceManyBody().strength(0.01))
+          .force("collide",d3.forceCollide(radius+padding).strength(2))
+          .alpha(5)
+              
+        for (let i = 0; i < 250; ++i) {simulation.tick()}
+        
+
+      svg.selectAll("circle")
+        .data(simulation.nodes())
+        .enter()
+        .append("a")
+        .attr("xlink:href",d=>d.youtube_src)
+        .attr("target","_blank")
+        .append("circle")
+        .attr("cx",d=>d.x)
+        .attr("cy",d=>d.y)
+        .attr("fill",d => d.Titanium_White==0?"#da7b16":"transparent")
+        .attr("stroke",d => d.Titanium_White==0?"#da7b16":"white")
+        .attr("stroke-width",2)
+        .attr("r",radius)
+
+      const annotate = [{
+        type : d3.annotationCustomType(
+          d3.annotationCalloutElbow, 
+          {"className":"custom",
+          "connector":{"type":"elbow",
+          "end":"dot"},
+          "note":{"lineType":"horizontal",
+          "align":"left"}}),
+        note: {
+          label: "Out of 403 paintings created, 100 of Bob Ross's paintings used 12 colours.",
+          wrap:160,
+          },
+          x:630,
+          y:230,
+          dx:15,
+          dy:-40,
+          color:"white"
+      },
+      {
+        type : d3.annotationCustomType(
+          d3.annotationCalloutElbow, 
+          {"className":"custom",
+          "connector":{"type":"elbow",
+          "end":"dot"},
+          "note":{"lineType":"horizontal",
+          "align":"left"}}),
+        note: {
+          label: "This painting called 'Contemplative Lady', used only one colour. The colour used was Van Dyke Brown or #221B15 in hex value.",
+          wrap:160,
+          },
+          x:325,
+          y:900,
+          dx:155,
+          dy:-40,
+          color:"white"
+      },
+      {
+        type : d3.annotationCustomType(
+          d3.annotationCalloutElbow, 
+          {"className":"custom",
+          "connector":{"type":"elbow",
+          "end":"arrow"},
+          "note":{"lineType":"horizontal",
+          "align":"right"}}),
+        note: {
+          label: "This painting called 'Pot O' Posies', along with the other circles which are orange, were the only paintings that did not use the colour 'Titanium White'.",
+          wrap:160,
+          },
+          x:270,
+          y:590,
+          dx:-55,
+          dy:-40,
+          color:"#da7b16"
+      }
+    ].map(d => {return d})
+
+      const makeAnnot = d3.annotation()
+                      .type(d3.annotationLabel)
+                      .annotations(annotate)
+
+      svg.append("g")
+        .call(makeAnnot)
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://github.com/jwilber/Bob_Ross_Paintings" target="_blank">
+              Jared Wilber. GitHub: Bob Ross Paintings.
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
