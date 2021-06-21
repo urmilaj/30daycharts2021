@@ -13,3 +13,4 @@ The purpose of this repository is for providing the charts in vanilla format.
 - Day 6: Experimental [Indian Space Research Organisation's Experimental Satellites](satellites.html)
 - Day 7: Physical [Raja Ravi Varma's paintings](varma.html)
 - Day 8: Animals [India's live animal exports](exports.html)
+- Day 9: Statistics [A bee-swarm plot of colours used in Bob Ross paintings](paintings.html)
