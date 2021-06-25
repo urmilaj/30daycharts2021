@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Statistical Abstract Relating to British India</title>
+    <style>
+    
+    header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        }
+
+    svg {
+            display: block;
+            margin: auto;
+        }
+
+    p {
+            text-align: center;
+            margin: auto;
+            font-size: 1.3em;
+            width: 920px;
+        }
+
+    </style>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  </head>
+  <body>
+    <header>Week 2: Distributions. Day 10: Abstract.</header>
+    <br>
+    <p>The British administration required the Provincial Governments to publish relevant statistics in
+      their annual administration reports. These statistics covered a wide range of subjects. The forms for this information were later made
+      uniform, and the first Statistical Abstract of British India (1840‐1865) was based on such
+      information provided by the Provinces. The below visualization is total value of all exports (including treasure) from British India, by sea, in each year ended 30th April.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 100, left: 50, bottom: 80, right: 50 },
+          width = 950 - margin.right - margin.left,
+          height = 1500 - margin.top - margin.bottom,
+          padding = 3;
+
+    const svg = d3.select("body")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","#17036a")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+    
+                  
+    d3.csv("data/statisticalAbstract.csv", function(d){
+      return {
+        year: +d.year,
+        country: d.country,
+        value: +d.value,
+      }
+    }).then(function(data){
+      const x = d3.scaleBand()
+        .domain(data.map(d => d.country))
+        .range([margin.left,width-margin.right])
+
+      const xAxis = g => g.attr("transform",`translate(0,${height-margin.right})`)
+        .call(d3.axisBottom(x))
+
+      const y = d3.scaleBand()
+        .domain(data.map(d => d.year))
+        .range([height,margin.top])
+
+      const yAxis = g => g.attr("transform",`translate(${margin.left},0)`)
+        .call(d3.axisLeft(y))
+
+      const scaleRadius = d3.scaleSqrt()
+        .domain(d3.extent(data,d => d.value))
+        .range([2,30])
+      
+      const format = d3.format(",")
+      
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",-40)
+        .text("Value of exports from British India, to other countries, via sea. (1861-1865)")
+        .style("text-wrap",500)
+        .style("text-anchor","middle")
+        .style("font-weight","bold")
+        .style("font-size","1.4em")
+        .style("fill","orange")
+
+      svg.append("g")
+        .call(yAxis).style("stroke","orange").style("color","orange").style("font-size","15px")
+        .call(g => g.select(".domain").remove())
+
+      const circle = svg.append("g").attr("transform",`translate(${margin.left},120)`)
+        .selectAll("circle")
+        .data(data)
+        .join("circle")
+        .attr("fill","orange")
+        .attr("stroke","white")
+        .attr("stroke-width",1.5)
+        .attr("r",d => scaleRadius(d.value))
+      
+      const simulation = d3.forceSimulation()
+        .force("x",d3.forceX(d => x(d.country)).strength(12))
+        .force("y",d3.forceY(d => y(d.year)).strength(10))
+        .force("charge",d3.forceManyBody().strength(-5))
+        .force("collide",d3.forceCollide().strength(-5))
+        .alpha(0.5)
+
+  simulation.nodes(data)
+        .on("tick",(event,d) => circle.attr("cx", (d,i) => d.x)
+                               .attr("cy", d => d.y))
+        .on("end", tooltip)
+
+        function tooltip(d){
+        let labels = data.filter(d => d.value>300000).map((d,i)=>{
+        return{
+          x:d.x,
+          y:d.y,
+          dx:d.country=="United Kingdom"?-25:0||d.country=="Ceylon"?-20:0||d.country=="Penang, Singapore, and Malacca"?40:0||d.country=="Arabian and Persian Gulfs"?35:0,
+          dy:d.country=="United Kingdom"?-120:0||d.country=="China"?-110:0||d.country=="Penang, Singapore, and Malacca"?-100:0||d.country=="Arabian and Persian Gulfs"?-130:-40, //i%2==0?-45:-120,
+          color:"orange",
+          note:{
+          title:d.country,
+          label:"£ "+format(d.value),
+        }
+      }
+    })
+
+      let type = d3.annotationCustomType(
+        d3.annotationCalloutElbow, 
+          {"className":"custom",
+          "connector":{"end":"dot"},
+          "note":{"lineType":"horizontal",
+          "align":"middle"}})
+    
+      let makeAnnot = d3.annotation()
+        .type(type)
+        .textWrap(100)
+        .annotations(labels)
+    
+      svg.append("g").attr("transform",`translate(${margin.left},120)`).call(makeAnnot);
+    
+  }
+      
+
+       
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://dsal.uchicago.edu/statistics/" target="_blank">
+              Digital South Asia Library.
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
