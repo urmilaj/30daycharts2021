@@ -1,0 +1,528 @@
+﻿article,year,value
+Coffee,1849,75723
+Coffee,1850,73100
+Coffee,1851,100509
+Coffee,1852,84306
+Coffee,1853,97490
+Coffee,1854,109762
+Coffee,1855,82804
+Coffee,1856,120201
+Coffee,1857,132819
+Coffee,1858,99727
+Coffee,1859,135036
+Coffee,1860,188532
+Coffee,1861,337433
+Coffee,1862,467991
+Coffee,1863,513257
+Coffee,1864,657672
+Coffee,1865,801908
+"Cotton, Raw",1849,1775309
+"Cotton, Raw",1850,2201178
+"Cotton, Raw",1851,3474789
+"Cotton, Raw",1852,3619989
+"Cotton, Raw",1853,3629494
+"Cotton, Raw",1854,2802150
+"Cotton, Raw",1855,2428764
+"Cotton, Raw",1856,3314951
+"Cotton, Raw",1857,1437949
+"Cotton, Raw",1858,4301768
+"Cotton, Raw",1859,4094100
+"Cotton, Raw",1860,5637624
+"Cotton, Raw",1861,7342168
+"Cotton, Raw",1862,10203470
+"Cotton, Raw",1863,18779040
+"Cotton, Raw",1864,35864795
+"Cotton, Raw",1865,37573637
+"Cotton Goods, including Twist and Yarn",1849,690584
+"Cotton Goods, including Twist and Yarn",1850,742320
+"Cotton Goods, including Twist and Yarn",1851,673549
+"Cotton Goods, including Twist and Yarn",1852,819049
+"Cotton Goods, including Twist and Yarn",1853,930877
+"Cotton Goods, including Twist and Yarn",1854,769345
+"Cotton Goods, including Twist and Yarn",1855,817103
+"Cotton Goods, including Twist and Yarn",1856,779647
+"Cotton Goods, including Twist and Yarn",1857,882241
+"Cotton Goods, including Twist and Yarn",1858,809183
+"Cotton Goods, including Twist and Yarn",1859,813604
+"Cotton Goods, including Twist and Yarn",1860,763586
+"Cotton Goods, including Twist and Yarn",1861,786557
+"Cotton Goods, including Twist and Yarn",1862,748385
+"Cotton Goods, including Twist and Yarn",1863,785437
+"Cotton Goods, including Twist and Yarn",1864,1167577
+"Cotton Goods, including Twist and Yarn",1865,1043960
+Drugs,1849,17869
+Drugs,1850,34395
+Drugs,1851,19502
+Drugs,1852,14329
+Drugs,1853,30043
+Drugs,1854,78574
+Drugs,1855,78950
+Drugs,1856,58808
+Drugs,1857,90571
+Drugs,1858,91482
+Drugs,1859,64112
+Drugs,1860,44838
+Drugs,1861,45239
+Drugs,1862,60426
+Drugs,1863,83314
+Drugs,1864,104505
+Drugs,1865,101043
+Dyes-Indigo,1849,2093474
+Dyes-Indigo,1850,1838474
+Dyes-Indigo,1851,1980896
+Dyes-Indigo,1852,2025313
+Dyes-Indigo,1853,1809685
+Dyes-Indigo,1854,2067769
+Dyes-Indigo,1855,1701825
+Dyes-Indigo,1856,2424332
+Dyes-Indigo,1857,1937907
+Dyes-Indigo,1858,1734339
+Dyes-Indigo,1859,2118016
+Dyes-Indigo,1860,2021288
+Dyes-Indigo,1861,1886525
+Dyes-Indigo,1862,1647503
+Dyes-Indigo,1863,2126870
+Dyes-Indigo,1864,1756158
+Dyes-Indigo,1865,1860141
+Dyes-Other Kind,1849,46584
+Dyes-Other Kind,1850,68891
+Dyes-Other Kind,1851,102431
+Dyes-Other Kind,1852,98919
+Dyes-Other Kind,1853,100559
+Dyes-Other Kind,1854,113518
+Dyes-Other Kind,1855,115427
+Dyes-Other Kind,1856,58901
+Dyes-Other Kind,1857,87151
+Dyes-Other Kind,1858,123123
+Dyes-Other Kind,1859,121279
+Dyes-Other Kind,1860,114485
+Dyes-Other Kind,1861,203042
+Dyes-Other Kind,1862,112911
+Dyes-Other Kind,1863,80287
+Dyes-Other Kind,1864,93788
+Dyes-Other Kind,1865,80354
+Rice,1849,0
+Rice,1850,0
+Rice,1851,0
+Rice,1852,0
+Rice,1853,0
+Rice,1854,1261503
+Rice,1855,1562318
+Rice,1856,2598070
+Rice,1857,2301182
+Rice,1858,3449172
+Rice,1859,2433145
+Rice,1860,2276296
+Rice,1861,2962497
+Rice,1862,3635075
+Rice,1863,3378496
+Rice,1864,3975565
+Rice,1865,5573537
+ Wheat,1849,858691
+ Wheat,1850,757917
+ Wheat,1851,752295
+ Wheat,1852,869002
+ Wheat,1853,889160
+ Wheat,1854,0
+ Wheat,1855,0
+ Wheat,1856,173883
+ Wheat,1857,138499
+ Wheat,1858,142761
+ Wheat,1859,116945
+ Wheat,1860,1112222
+ Wheat,1861,135059
+ Wheat,1862,147501
+ Wheat,1863,112056
+ Wheat,1864,78676
+ Wheat,1865,110265
+Grain,1849,0
+Grain,1850,0
+Grain,1851,0
+Grain,1852,0
+Grain,1853,0
+Grain,1854,152151
+Grain,1855,180212
+Grain,1856,0
+Grain,1857,0
+Grain,1858,0
+Grain,1859,0
+Grain,1860,0
+Grain,1861,0
+Grain,1862,0
+Grain,1863,0
+Grain,1864,0
+Grain,1865,0
+Grain - Other Kinds,1849,0
+Grain - Other Kinds,1850,0
+Grain - Other Kinds,1851,0
+Grain - Other Kinds,1852,0
+Grain - Other Kinds,1853,0
+Grain - Other Kinds,1854,0
+Grain - Other Kinds,1855,0
+Grain - Other Kinds,1856,124309
+Grain - Other Kinds,1857,147775
+Grain - Other Kinds,1858,198441
+Grain - Other Kinds,1859,251781
+Grain - Other Kinds,1860,200044
+Grain - Other Kinds,1861,253321
+Grain - Other Kinds,1862,257362
+Grain - Other Kinds,1863,237358
+Grain - Other Kinds,1864,271136
+Grain - Other Kinds,1865,272606
+Gums,1849,40667
+Gums,1850,54624
+Gums,1851,44790
+Gums,1852,42296
+Gums,1853,32580
+Gums,1854,32712
+Gums,1855,43448
+Gums,1856,33249
+Gums,1857,26535
+Gums,1858,27014
+Gums,1859,31271
+Gums,1860,17114
+Gums,1861,20785
+Gums,1862,22760
+Gums,1863,43013
+Gums,1864,34821
+Gums,1865,31517
+Gunnies and Gunny Bags,1849,105777
+Gunnies and Gunny Bags,1850,212235
+Gunnies and Gunny Bags,1851,166397
+Gunnies and Gunny Bags,1852,287411
+Gunnies and Gunny Bags,1853,231159
+Gunnies and Gunny Bags,1854,174790
+Gunnies and Gunny Bags,1855,215335
+Gunnies and Gunny Bags,1856,302338
+Gunnies and Gunny Bags,1857,376252
+Gunnies and Gunny Bags,1858,217194
+Gunnies and Gunny Bags,1859,392424
+Gunnies and Gunny Bags,1860,333977
+Gunnies and Gunny Bags,1861,359343
+Gunnies and Gunny Bags,1862,186845
+Gunnies and Gunny Bags,1863,131628
+Gunnies and Gunny Bags,1864,111207
+Gunnies and Gunny Bags,1865,102858
+Hides and Skins,1849,193765
+Hides and Skins,1850,219396
+Hides and Skins,1851,324444
+Hides and Skins,1852,303089
+Hides and Skins,1853,337849
+Hides and Skins,1854,402365
+Hides and Skins,1855,402392
+Hides and Skins,1856,431729
+Hides and Skins,1857,572530
+Hides and Skins,1858,639702
+Hides and Skins,1859,544680
+Hides and Skins,1860,444537
+Hides and Skins,1861,661725
+Hides and Skins,1862,794137
+Hides and Skins,1863,904289
+Hides and Skins,1864,897575
+Hides and Skins,1865,725236
+Ivory and Ivory Ware,1849,70828
+Ivory and Ivory Ware,1850,56718
+Ivory and Ivory Ware,1851,43086
+Ivory and Ivory Ware,1852,90140
+Ivory and Ivory Ware,1853,55886
+Ivory and Ivory Ware,1854,80895
+Ivory and Ivory Ware,1855,66921
+Ivory and Ivory Ware,1856,82384
+Ivory and Ivory Ware,1857,128096
+Ivory and Ivory Ware,1858,19805
+Ivory and Ivory Ware,1859,98157
+Ivory and Ivory Ware,1860,97126
+Ivory and Ivory Ware,1861,33039
+Ivory and Ivory Ware,1862,120367
+Ivory and Ivory Ware,1863,60260
+Ivory and Ivory Ware,1864,80398
+Ivory and Ivory Ware,1865,77217
+Jewellery and Precious Stones,1849,72787
+Jewellery and Precious Stones,1850,82927
+Jewellery and Precious Stones,1851,63912
+Jewellery and Precious Stones,1852,68037
+Jewellery and Precious Stones,1853,129360
+Jewellery and Precious Stones,1854,116652
+Jewellery and Precious Stones,1855,47497
+Jewellery and Precious Stones,1856,96989
+Jewellery and Precious Stones,1857,0
+Jewellery and Precious Stones,1858,0
+Jewellery and Precious Stones,1859,0
+Jewellery and Precious Stones,1860,0
+Jewellery and Precious Stones,1861,0
+Jewellery and Precious Stones,1862,0
+Jewellery and Precious Stones,1863,0
+Jewellery and Precious Stones,1864,0
+Jewellery and Precious Stones,1865,0
+Jute,1849,68717
+Jute,1850,88989
+Jute,1851,196936
+Jute,1852,180976
+Jute,1853,112617
+Jute,1854,214768
+Jute,1855,229241
+Jute,1856,329076
+Jute,1857,145186
+Jute,1858,118164
+Jute,1859,137351
+Jute,1860,149440
+Jute,1861,164578
+Jute,1862,95332
+Jute,1863,100339
+Jute,1864,113596
+Jute,1865,49164
+Lac,1849,82453
+Lac,1850,148226
+Lac,1851,139177
+Lac,1852,105824
+Lac,1853,150680
+Lac,1854,102791
+Lac,1855,92287
+Lac,1856,126878
+Lac,1857,274957
+Lac,1858,303292
+Lac,1859,525099
+Lac,1860,290018
+Lac,1861,409372
+Lac,1862,537610
+Lac,1863,750456
+Lac,1864,1507037
+Lac,1865,1307844
+Oils,1849,41823
+Oils,1850,106948
+Oils,1851,129021
+Oils,1852,92722
+Oils,1853,90039
+Oils,1854,104170
+Oils,1855,130958
+Oils,1856,154540
+Oils,1857,105575
+Oils,1858,109111
+Oils,1859,80641
+Oils,1860,78182
+Oils,1861,172774
+Oils,1862,252789
+Oils,1863,235090
+Oils,1864,242021
+Oils,1865,297394
+Opium,1849,5772526
+Opium,1850,5973395
+Opium,1851,5459135
+Opium,1852,6515214
+Opium,1853,7034075
+Opium,1854,6437098
+Opium,1855,6231278
+Opium,1856,6200871
+Opium,1857,179164
+Opium,1858,265271
+Opium,1859,192562
+Opium,1860,180066
+Opium,1861,247094
+Opium,1862,209502
+Opium,1863,372107
+Opium,1864,422175
+Opium,1865,217730
+Saltpetre,1849,369543
+Saltpetre,1850,403285
+Saltpetre,1851,375632
+Saltpetre,1852,431379
+Saltpetre,1853,448804
+Saltpetre,1854,528574
+Saltpetre,1855,484791
+Saltpetre,1856,449390
+Saltpetre,1857,576346
+Saltpetre,1858,390387
+Saltpetre,1859,528096
+Saltpetre,1860,481226
+Saltpetre,1861,661772
+Saltpetre,1862,828624
+Saltpetre,1863,897228
+Saltpetre,1864,722204
+Saltpetre,1865,542389
+"Seeds, of all Sorts",1849,71092
+"Seeds, of all Sorts",1850,216731
+"Seeds, of all Sorts",1851,341514
+"Seeds, of all Sorts",1852,501420
+"Seeds, of all Sorts",1853,448770
+"Seeds, of all Sorts",1854,471797
+"Seeds, of all Sorts",1855,812799
+"Seeds, of all Sorts",1856,1273457
+"Seeds, of all Sorts",1857,1118654
+"Seeds, of all Sorts",1858,1380001
+"Seeds, of all Sorts",1859,2059445
+"Seeds, of all Sorts",1860,1548721
+"Seeds, of all Sorts",1861,1785526
+"Seeds, of all Sorts",1862,1206331
+"Seeds, of all Sorts",1863,1833851
+"Seeds, of all Sorts",1864,2032832
+"Seeds, of all Sorts",1865,1912433
+"Shawls, Cashmero",1849,59887
+"Shawls, Cashmero",1850,147002
+"Shawls, Cashmero",1851,171709
+"Shawls, Cashmero",1852,146270
+"Shawls, Cashmero",1853,215659
+"Shawls, Cashmero",1854,170551
+"Shawls, Cashmero",1855,198338
+"Shawls, Cashmero",1856,209705
+"Shawls, Cashmero",1857,290640
+"Shawls, Cashmero",1858,227618
+"Shawls, Cashmero",1859,311062
+"Shawls, Cashmero",1860,252828
+"Shawls, Cashmero",1861,351174
+"Shawls, Cashmero",1862,459441
+"Shawls, Cashmero",1863,303157
+"Shawls, Cashmero",1864,275391
+"Shawls, Cashmero",1865,254497
+"Silk, Raw",1849,713632
+"Silk, Raw",1850,666094
+"Silk, Raw",1851,619319
+"Silk, Raw",1852,688640
+"Silk, Raw",1853,667545
+"Silk, Raw",1854,640451
+"Silk, Raw",1855,500105
+"Silk, Raw",1856,707706
+"Silk, Raw",1857,782140
+"Silk, Raw",1858,766673
+"Silk, Raw",1859,725655
+"Silk, Raw",1860,817853
+"Silk, Raw",1861,1036728
+"Silk, Raw",1862,686083
+"Silk, Raw",1863,822892
+"Silk, Raw",1864,954649
+"Silk, Raw",1865,1165901
+"Silk, Goods",1849,302322
+"Silk, Goods",1850,441749
+"Silk, Goods",1851,355223
+"Silk, Goods",1852,260225
+"Silk, Goods",1853,315305
+"Silk, Goods",1854,326571
+"Silk, Goods",1855,263453
+"Silk, Goods",1856,341035
+"Silk, Goods",1857,281450
+"Silk, Goods",1858,158224
+"Silk, Goods",1859,213108
+"Silk, Goods",1860,191509
+"Silk, Goods",1861,134831
+"Silk, Goods",1862,168806
+"Silk, Goods",1863,165136
+"Silk, Goods",1864,115465
+"Silk, Goods",1865,106612
+"Spices, of all Sorts",1849,82388
+"Spices, of all Sorts",1850,132459
+"Spices, of all Sorts",1851,92603
+"Spices, of all Sorts",1852,94501
+"Spices, of all Sorts",1853,69457
+"Spices, of all Sorts",1854,114722
+"Spices, of all Sorts",1855,106139
+"Spices, of all Sorts",1856,197035
+"Spices, of all Sorts",1857,104234
+"Spices, of all Sorts",1858,166034
+"Spices, of all Sorts",1859,123231
+"Spices, of all Sorts",1860,101886
+"Spices, of all Sorts",1861,86638
+"Spices, of all Sorts",1862,162434
+"Spices, of all Sorts",1863,127192
+"Spices, of all Sorts",1864,161509
+"Spices, of all Sorts",1865,145165
+Sugar and Sugar Candy,1849,1814404
+Sugar and Sugar Candy,1850,1925603
+Sugar and Sugar Candy,1851,1823789
+Sugar and Sugar Candy,1852,1801660
+Sugar and Sugar Candy,1853,1729762
+Sugar and Sugar Candy,1854,948582
+Sugar and Sugar Candy,1855,1135699
+Sugar and Sugar Candy,1856,1359104
+Sugar and Sugar Candy,1857,1786077
+Sugar and Sugar Candy,1858,1175771
+Sugar and Sugar Candy,1859,1450767
+Sugar and Sugar Candy,1860,1031944
+Sugar and Sugar Candy,1861,1032416
+Sugar and Sugar Candy,1862,826936
+Sugar and Sugar Candy,1863,296234
+Sugar and Sugar Candy,1864,716857
+Sugar and Sugar Candy,1865,765110
+Tea,1849,35525
+Tea,1850,27231
+Tea,1851,33979
+Tea,1852,59220
+Tea,1853,58113
+Tea,1854,43006
+Tea,1855,40504
+Tea,1856,63075
+Tea,1857,121061
+Tea,1858,53331
+Tea,1859,60533
+Tea,1860,127771
+Tea,1861,151981
+Tea,1862,192442
+Tea,1863,223763
+Tea,1864,271229
+Tea,1865,301022
+Timber and Woods,1849,28435
+Timber and Woods,1850,24145
+Timber and Woods,1851,26717
+Timber and Woods,1852,20162
+Timber and Woods,1853,19207
+Timber and Woods,1854,131921
+Timber and Woods,1855,128518
+Timber and Woods,1856,128237
+Timber and Woods,1857,208697
+Timber and Woods,1858,233593
+Timber and Woods,1859,234855
+Timber and Woods,1860,233192
+Timber and Woods,1861,170158
+Timber and Woods,1862,450314
+Timber and Woods,1863,278106
+Timber and Woods,1864,220749
+Timber and Woods,1865,436756
+Tobacco,1849,37155
+Tobacco,1850,21590
+Tobacco,1851,26729
+Tobacco,1852,23454
+Tobacco,1853,20169
+Tobacco,1854,24418
+Tobacco,1855,20839
+Tobacco,1856,22488
+Tobacco,1857,37962
+Tobacco,1858,58336
+Tobacco,1859,45317
+Tobacco,1860,36656
+Tobacco,1861,32969
+Tobacco,1862,141882
+Tobacco,1863,38869
+Tobacco,1864,46224
+Tobacco,1865,81968
+"Wool, Raw",1849,55591
+"Wool, Raw",1850,48925
+"Wool, Raw",1851,68335
+"Wool, Raw",1852,100612
+"Wool, Raw",1853,172110
+"Wool, Raw",1854,205601
+"Wool, Raw",1855,207263
+"Wool, Raw",1856,272942
+"Wool, Raw",1857,314216
+"Wool, Raw",1858,387104
+"Wool, Raw",1859,349895
+"Wool, Raw",1860,436672
+"Wool, Raw",1861,478390
+"Wool, Raw",1862,400342
+"Wool, Raw",1863,841323
+"Wool, Raw",1864,995048
+"Wool, Raw",1865,1151002
+Treasure,1849,2539742
+Treasure,1850,971244
+Treasure,1851,541289
+Treasure,1852,918936
+Treasure,1853,1055230
+Treasure,1854,1483296
+Treasure,1855,1267033
+Treasure,1856,601176
+Treasure,1857,1253426
+Treasure,1858,822438
+Treasure,1859,669427
+Treasure,1860,929007
+Treasure,1861,1119549
+Treasure,1862,683355
+Treasure,1863,1111140
+Treasure,1864,1270435
+Treasure,1865,1444775
