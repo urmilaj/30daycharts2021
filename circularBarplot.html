@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Value of Merchandise and Treasure exported from British India</title>
+    <style>
+      header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        }
+
+    svg {
+            display: block;
+            margin: auto;
+        }
+
+    p {
+            text-align: center;
+            margin: auto;
+            font-size: 1.3em;
+            width: 920px;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
+  </head>
+  <body>
+    <header>Week 2: Distributions. Day 11: Circular.</header>
+    <br>
+    <p>A circular bar plot showing the value of merchandise and treasure that was exported from British India between 1849-1865.</p>
+    <br>
+    <div class="chart"></div>
+    <script>
+    
+    const margin = { top: 0, left: 0, bottom: 0, right: 0 },
+          width = 960 - margin.right - margin.left,
+          height = 700 - margin.top - margin.bottom,
+          innerRadius = 130,
+          outerRadius = 280;
+    
+    const format = d3.format(",");
+                  
+    d3.csv("data/merchandiseTreasure.csv", d => {
+      return {
+      article: d.article,
+      value: +d.value,
+      year: +d.year
+      }
+    }).then(function(data){
+      const group = d3.group(data,d=>d.article);
+
+      const t = [
+        textures.lines()
+        .size(5)
+        .orientation("vertical")
+        .strokeWidth(2)
+        .background("none")
+        .stroke("purple"),
+
+        textures.lines()
+        .thicker()
+        .orientation("vertical")
+        .size(5)
+        .strokeWidth(2.5)
+        .stroke("darkorange"),
+
+        textures.paths()
+        .d("hexagons")
+        .size(8)
+        .background("none")
+        .stroke("purple")
+        .strokeWidth(1.5)
+        .fill("cyan"),
+
+        textures.circles()
+        .strokeWidth(1)       
+        .stroke("lightgray")
+        .radius(8)
+        .complement()
+        .fill("firebrick"),
+
+        textures.circles()
+        .radius(25)
+        .lighter()
+        .stroke("orange")
+        .strokeWidth(5)
+        .fill("gold"),
+
+        textures.paths()
+        .d("woven")
+        .size(30)
+        .stroke("purple")
+        .strokeWidth(1.5)
+        .background("#FFDFD3"),
+
+        textures.lines()
+        .orientation("diagonal")
+        .size(30)
+        .background("firebrick")
+        .stroke("#D2C3D8")
+        .strokeWidth(7),
+
+        textures.lines()
+        .orientation("3/8","7/8")
+        .background("orange")
+        .stroke("white")
+        .strokeWidth(2),
+
+        textures.paths()
+        .d("squares")
+        .size(12)
+        .background("transparent")
+        .stroke("brown")
+        .strokeWidth(2)
+        .fill("white"),
+
+        textures.circles()
+        .size(12)
+        .radius(4)
+        .background("black")
+        .stroke("orange")
+        .strokeWidth(1)
+        .fill("black")
+        .complement(),
+
+        textures.paths()
+        .d("waves")
+        .size(20)
+        .background("#FFDFD3")
+        .stroke("white")
+        .strokeWidth(2.5)
+        .fill("none"),
+
+        textures.paths()
+        .d("woven")
+        .fill("black")
+        .lighter()
+        .thicker()
+        .stroke("red")
+      ] 
+
+      chart = (data, title, pattern) => {
+
+        const svg = d3.select(".chart")
+          .append("svg")
+          .attr("width",width+margin.left+margin.right)
+          .attr("height",height+margin.top+margin.bottom)
+          .style("background-color","#e1d4e3")
+          .append("g")
+          .attr("transform",`translate(${margin.left},${margin.top})`);
+        
+        const texture = pattern
+        
+        const x = d3.scaleBand()
+          .domain(data.map(d=>d.year))
+          .range([0,2 *Math.PI])
+          .align(0)
+  
+        const y = d3.scaleRadial()
+          .domain([0,d3.max(data,d=>d.value)])
+          .range([innerRadius,outerRadius])
+  
+        const arc = d3.arc()
+          .innerRadius(d=>y(0))
+          .outerRadius(d=>y(d.value))
+          .startAngle(d=>x(d.year))
+          .endAngle(d=>x(d.year)+x.bandwidth())
+          .padAngle(0.09)
+          .padRadius(innerRadius)
+  
+        const xAxis = g => g
+          .attr("text-anchor", "middle")
+          .call(g => g.selectAll("g")
+          .data(data)
+          .join("g")
+          .attr("transform", d => `rotate(${((x(d.year) + x.bandwidth() / 2) * 180 / Math.PI - 90)})
+                translate(${innerRadius},0)`)
+          .call(g => g.append("text")
+                .attr("transform", d => (x(d.year) + x.bandwidth() / 2 + Math.PI / 2) % (2 * Math.PI) < Math.PI
+                ? "rotate(90)translate(0,16)"
+                : "rotate(-90)translate(0,-9)")
+                .text(d => d.year)))
+  
+        const g = svg.append("g")
+          .attr("transform",`translate(${width/2},${height/2})`)
+  
+        g.call(xAxis);
+  
+        g.call(texture)
+     
+        g.append("g")
+          .selectAll("path")
+          .data(data)
+          .join("path")
+          .attr("d",arc)
+          .style("fill",texture.url())
+          .style("stroke","black")
+          .style("stroke-width",1.7)
+        
+        g.append("g")
+          .selectAll("g")
+          .data(data)
+          .enter()
+          .append("g")
+          .attr("text-anchor", function(d) { return (x(d.year) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "end" : "start"; })
+          .attr("transform", function(d) { return "rotate(" + ((x(d.year) + x.bandwidth() / 2) * 180 / Math.PI - 90) + ")"+"translate(" + (y(d.value)+10) + ",0)"; })
+          .append("text")
+          .text(function(d){return("£ "+format(d.value))})
+          .attr("transform", function(d) { return (x(d.year) + x.bandwidth() / 2 + Math.PI) % (2 * Math.PI) < Math.PI ? "rotate(180)" : "rotate(0)"; })
+          .style("font-size", "12px")
+          .style("font-weight","bold")
+          .attr("alignment-baseline", "middle")
+  
+        svg.append("text")
+          .attr("x",width/2)
+          .attr("y",height/2+20)
+          .attr("text-anchor","middle")
+          .style("font-size","1.8em")
+          .text(title)
+      }
+
+      chart(group.get("Ivory and Ivory Ware"),"Ivory",t[0])
+      chart(group.get("Tea"),"Tea",t[1])
+      chart(group.get("Jewellery and Precious Stones"),"Jewellery",t[3])
+      chart(group.get("Treasure"),"Treasure",t[4])
+      chart(group.get("Cotton, Raw"),"Raw Cotton",t[7])
+      chart(group.get("Coffee"),"Coffee",t[8])
+      chart(group.get("Opium"),"Opium",t[2])
+      chart(group.get("Spices, of all Sorts"),"Spices",t[9])
+      chart(group.get("Shawls, Cashmero"),"Cashmere",t[10])
+      chart(group.get("Silk, Raw"),"Raw Silk",t[11])
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://dsal.uchicago.edu/statistics/" target="_blank">
+              Digital South Asia Library.
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
