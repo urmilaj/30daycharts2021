@@ -54,8 +54,6 @@
       }
     }).then(function(data){
 
-      console.log(data)
-
       const x = d3.scaleLinear()
         .domain(d3.extent(data, d => d.length_ft))
         .range([margin.left, width - margin.right])
