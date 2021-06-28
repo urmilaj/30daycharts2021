@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Airstrips</title>
+    <style>
+
+    header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        }
+
+    svg {
+            display: block;
+            margin: auto;
+            background-color: #17036a;
+        }
+
+    p {
+            text-align: center;
+            margin: auto;
+            font-size: 1.3em;
+            width: 920px;
+        }
+
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 2: Distributions. Day 12: Strip.</header>
+    <br>
+    <p>This is a visualization of airplane landing strips across the world and the surface material it's made of and the corresponding lengths of the strips. A quick view shows that most of the data contains airstrips made of asphalt or concrete with varying range of length of the landing strips.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 25, bottom: 80, right: 50 },
+          width = 900 - margin.right - margin.left,
+          height = 1100 - margin.top - margin.bottom,
+          padding = 3;
+
+    const svg = d3.select("body")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","#f19088")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+                  
+    d3.csv("data/airstripData.csv", d => {
+      return {
+        length_ft: +d.length_ft,
+        surface: d.surface
+      }
+    }).then(function(data){
+
+      console.log(data)
+
+      const x = d3.scaleLinear()
+        .domain(d3.extent(data, d => d.length_ft))
+        .range([margin.left, width - margin.right])
+
+      const y = d3.scaleBand()
+        .domain(data.map(d => d.surface))
+        .rangeRound([margin.top, height - margin.bottom])
+        .padding(0.1)
+
+      const xAxis = g => g
+        .attr("transform", `translate(50,${margin.top+20})`)
+        .call(d3.axisTop(x))
+        .call(g => g.selectAll(".tick line").clone().style("stroke","black").attr("stroke-opacity", 0.4).attr("y2", height - margin.bottom - margin.top))
+        .call(g => g.selectAll(".domain").remove());
+
+      const yAxis = g => g
+        .attr("transform", `translate(${margin.left+50},40)`)
+        .call(d3.axisLeft(y));
+
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",0)
+        .style("font-size","3em")
+        .style("fill","#f4eed5")
+        .style("text-anchor","middle")
+        .text("AirStrips")
+
+      svg.append("text")
+        .attr("x",width-370)
+        .attr("y",height+53)
+        .style("font-size","1.4em")
+        .style("fill","#f4eed5")
+        .text("(Airstrip length in feet on respective surface)")
+
+      svg.append("g")
+        .style("font-size","1em")
+        .style("font-weight","bold")
+        .style("color","#f4eed5")
+        .call(yAxis)
+        .call(g => g.select(".domain").remove())
+
+      svg.append("g").attr("transform",`translate(50,${margin.left})`)
+        .attr("stroke-width", 10)
+        .attr("pointer-events", "all")
+        .selectAll("rect")
+        .data(data)
+        .join("rect")
+        .attr("x", d => x(d.length_ft) - 0.75)
+        .attr("y", d => y(d.surface))
+        .attr("width", 1.5)
+        .attr("height", y.bandwidth())
+        .attr("fill", "#f4eed5")
+        
+      svg.append("g")
+          .style("font-size","0.8em")
+          .style("color","#f4eed5")
+          .call(xAxis)
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://ourairports.com/data/" target="_blank">
+              OurAirports
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
