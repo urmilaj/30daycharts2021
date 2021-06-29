@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Seoul Bike Sharing</title>
+    <style>
+      header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        }
+
+    svg {
+            display: block;
+            margin: auto;
+            background-color: #17036a;
+        }
+
+    p {
+            text-align: center;
+            margin: auto;
+            font-size: 1.3em;
+            width: 920px;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/simple-statistics@7.7.0/dist/simple-statistics.min.js"></script>
+  </head>
+  <body>
+    <header>Week 3: Relationships. Day 13: Correlation.</header>
+    <br>
+    <p>The chart below is a scatterplot visualization of correlation between temperature and number of bikes rented in Seoul.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 80, right: 50 },
+          width = 900 - margin.right - margin.left,
+          height = 650 - margin.top - margin.bottom,
+          padding = 3;
+
+    const svg = d3.select("body")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+                  
+    d3.csv("data/SeoulBikeSharing.csv", d => {
+      return {
+        Temperature: +d.Temperature,
+        RentedBikeCount: +d.RentedBikeCount,
+      }
+    }).then(function(data){
+      const tempScale = d3.scaleLinear()
+        .domain(d3.extent(data,d=>d.Temperature))
+        .range([margin.top,width-margin.top])
+      
+      const xAxis = g => g.attr("transform",`translate(0,${height-margin.left})`)
+        .call(d3.axisBottom(tempScale))
+
+      const y = d3.scaleLinear()
+        .domain(d3.extent(data,d=>d.RentedBikeCount))
+        .range([height-margin.left,margin.top])
+
+      const yAxis = g => g.attr("transform",`translate(${margin.top},0)`)
+        .call(d3.axisLeft(y))
+                   
+      const lR = ss.linearRegression(data.map(d=>[d.Temperature,d.RentedBikeCount]))
+      const line = ss.linearRegressionLine(lR)   
+      
+      const regressionLine = d3.line()
+                   .x(d=>tempScale(d.x))
+                   .y(d=>y(d.y))
+
+      point = () => {
+          const firstX = -12
+          const lastX = 39.4
+          const xCoordinates = [firstX, lastX]
+          
+          return xCoordinates.map(d=>({
+            x: d,
+            y: line(d)
+          }))}
+
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",0)
+        .style("text-anchor","middle")
+        .text("Seoul Bike Sharing")
+        .style("fill","#d96d3c")
+        .style("font-size","2em")
+        .style("font-weight","bold")
+  
+      svg.append("g")
+        .call(xAxis)
+        .style("color","#d96d3c")
+        .style("font-size","0.9em")
+        .style("font-weight","bold")
+  
+      svg.append("g")
+        .call(yAxis)
+        .style("color","#d96d3c")
+        .style("font-size","0.8em")
+        .style("font-weight","bold")
+  
+      svg.append("g")
+        .selectAll("circle")
+        .data(data)
+        .join("circle")
+        .attr("cx",d=>tempScale(d.Temperature))
+        .attr("cy",d=>y(d.RentedBikeCount))
+        .attr("r",1.2)
+        .style("fill","#d96d3c")
+  
+      svg.append("path")
+        .datum(point)
+        .attr("d",regressionLine)
+        .attr("fill","none")
+        .attr("stroke","white")
+        .style("stroke-width",2.5)
+  
+      svg.append("text")
+        .attr("x",-height/2+80)
+        .attr("y",-5)
+        .text("Number of bikes rented")
+        .style("text-anchor","end")
+        .attr("transform","rotate(-90)")
+        .style("fill","#d96d3c")
+        .style("font-weight","bold")
+  
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",height)
+        .style("text-anchor","middle")
+        .text("Temperature in °C")
+        .style("fill","#d96d3c")
+        .style("font-weight","bold")    
+      
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://archive.ics.uci.edu/ml/datasets/Seoul+Bike+Sharing+Demand" target="_blank">
+              UCI Machine Learning Repository: Seoul Bike Sharing Demand Data Set
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
