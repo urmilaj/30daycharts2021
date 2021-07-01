@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Space Tech Companies and Venture Capitals.</title>
+    <style>
+      header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        }
+
+        svg {
+            display: block;
+            margin: auto;
+        }
+
+        p {
+            text-align: center;
+            margin: auto;
+            font-size: 1.3em;
+            width: 900px;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 3: Relationships. Day 14: Space.</header>
+    <br>
+    <p>This chord directed chart visualizes venture capitals who invest in space techonology and their respective investments. The space tech companies are coloured in grey. This is not a comprehensive list of venture capital investments in space tech.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 80, right: 50 },
+          width = 900 - margin.right - margin.left,
+          height = 800 - margin.top - margin.bottom;
+
+    const svg = d3.select("body")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","#e4dedf")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})
+                  translate(${width/2},${height/2})`)
+                  
+    d3.csv("data/spaceTech.csv", d => {
+      return {
+        source: d.source,
+        target: d.target,
+        value: +d.value,
+    }}).then(function(data){
+
+      const names = Array.from(new Set(data.flatMap(d => [d.source, d.target])));
+
+      const m = () =>  {
+        const index = new Map(names.map((name, i) => [name, i]));
+        const matrix = Array.from(index, () => new Array(names.length).fill(0));
+        for (const {source, target, value} of data) matrix[index.get(source)][index.get(target)]=value
+        return matrix;
+      }
+
+      const innerRadius = Math.min(width, height)*0.5,
+        outerRadius = innerRadius,
+        chord = d3.chordDirected()
+          .padAngle(0.02)
+          .sortSubgroups(d3.descending)
+          .sortChords(d3.descending),
+        arc = d3.arc()
+          .innerRadius(innerRadius+10)
+          .outerRadius(outerRadius),
+        ribbon = d3.ribbonArrow()
+          .headRadius(30)
+          .radius(innerRadius)
+          .padAngle(10 / innerRadius),
+        color = d3.scaleOrdinal()
+          .domain(["Space Angels","Hempisphere Ventures","DCVC", "RRE Ventures", "Lux Capital", "Marcbell", "Founders Fund"])
+          .range(["#ea926c","pink","red","orange","cyan","green","rebeccapurple"])
+      
+
+      const chords = chord(m());
+
+
+      svg.append("g")
+        .attr("fill-opacity", 0.75)
+        .selectAll("g")
+        .data(chords)
+        .join("path")
+        .attr("d", ribbon)
+        .attr("class","ribbon")
+        .attr("fill", d => color(d.source.index))
+        .style("mix-blend-mode", "multiply")
+      
+      svg.append("g")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", 10)
+        .selectAll("g")
+        .data(chords.groups)
+        .join("g")
+        .call(g => g.append("path") 
+        .attr("class","band")
+        .attr("id",d => `${names[d.index]}`)
+        .attr("d", arc)
+        .attr("fill", d => color(d.index),color.unknown("grey"))
+        .attr("stroke", d => color(d.index)))
+        .call(g => g.append("text")
+        .attr("dy", -10)
+        .append("textPath")
+        .attr("xlink:href", d => `#${names[d.index]}`)
+        .attr("startOffset", "22%")
+        .text(d => `${names[d.index]}`)
+        .style("font-weight","bold")
+        .style("text-anchor","middle")
+        .style("font-size","1.05em"))
+     
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://pitchbook.com/news/articles/to-the-moon-and-back-the-top-vc-investors-in-space-tech" target="_blank">
+              PitchBook and Individual VC portfolio information on their respective websites.
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
