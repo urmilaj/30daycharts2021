@@ -19,3 +19,4 @@ The purpose of this repository is for providing the charts in vanilla format.
 - Day 12: Strip [Airstrips](airstrips.html)
 - Day 13: Correlation [Seoul Bike Sharing](bikeShare.html)
 - Day 14: Space [Space Tech Companies and Venture Capitals](spaceTech.html)
+- Day 15: Multivariate [Fertility](fertility.html)
