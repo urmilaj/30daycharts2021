@@ -11,12 +11,16 @@ The purpose of this repository is for providing the charts in vanilla format.
 - Day 4: Magical. [Solar Maxima and Human Excitability](solar.html)
 - Day 5: Slope. [Pyramids of Egypt](pyramids.html)
 - Day 6: Experimental [Indian Space Research Organisation's Experimental Satellites](satellites.html)
+
+# Week 2 topic: Distributions.
 - Day 7: Physical [Raja Ravi Varma's paintings](varma.html)
 - Day 8: Animals [India's live animal exports](exports.html)
 - Day 9: Statistics [A bee-swarm plot of colours used in Bob Ross paintings](paintings.html)
 - Day 10: Abstract [Statistical Abstract Relating to British India](administration.html)
 - Day 11: Circular [Value of Merchandise and Treasure exported from British India](circularBarplot.html)
-- Day 12: Strip [Airstrips](airstrips.html)
+- Day 12: Strips [Airstrips](airstrips.html)
+
+# Week 3 topic: Relationships. 
 - Day 13: Correlation [Seoul Bike Sharing](bikeShare.html)
 - Day 14: Space [Space Tech Companies and Venture Capitals](spaceTech.html)
 - Day 15: Multivariate [Fertility](fertility.html)
