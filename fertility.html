@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Fertility</title>
+    <style>
+      header {
+        margin: auto;
+        text-align: center;
+        font-size: 2.5em;
+        }
+
+        svg {
+            display: block;
+            margin: auto;
+        }
+
+        p {
+            text-align: center;
+            margin: auto;
+            font-size: 1.3em;
+            width: 900px;
+        }
+
+        li {
+            margin: auto;
+            font-size: 1.3em;
+            width: 850px;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  </head>
+  <body>
+    <header>Week 3: Relationships. Day 15: Multivariate.</header>
+    <br>
+    <p>A parallel coordinates visualization showing relationship between smoking and sperm concentration for a multivariate dataset. Blue line indicating an altered diagnosis and white line indicating normal diagnosis.</p>
+    <br>
+    <div class="chart"></div>
+    <br>
+    <p>
+      <li>Age at the time of analysis:- between 18 - 36 years old.</li>
+      <li>Childhood Diseases:- 0: yes, 1: no</li>
+      <li>Accident or serious trauma:- 0: yes, 1: no</li>
+      <li>Surgical Intervention:- 0: yes, 1: no</li>
+      <li>High fevers in last year:- less than 3 months ago: -1, more than 3 months ago: 0, no: 1</li>
+      <li>Alcohol:- several times a day: 0.2, everyday: 0.4, several times a week: 0.6, once a week: 0.8, hardly or never: 1 </li>
+      <li>Smoking:- never: -1, occasional: 0, daily: 1</li>
+      <li>Number of hours spent sitting:- 0,1</li>
+    </p>
+    <script>
+    
+    const margin = { top: 100, left: 50, bottom: 50, right: 50 },
+          width = 900 - margin.right - margin.left,
+          height = 900 - margin.top - margin.bottom,
+          padding = 3;
+
+    const svg = d3.select(".chart")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","#ded6da")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+                  
+    d3.csv("data/fertilityData.csv").then(function(data){
+      const keys = data.columns.slice(0,8);
+      const x = d3.scalePoint(keys, [margin.left, width - margin.right]);
+      const y = new Map(Array.from(keys, key => [key, d3.scaleLinear(d3.extent(data, d=> d[key]), [margin.top, height - margin.bottom])]));
+      const line = d3.line()
+         .defined(([, value]) => value != null)
+         .x(([key]) => x(key))
+         .y(([key, value]) => y.get(key)(value));
+      const color = d3.scaleOrdinal()
+          .domain(data.map(d=>d.Diagnosis))
+          .range(["white","#1f15e6"]);
+
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",-50)
+        .style("font-weight","bold")
+        .style("font-size","1.7em")
+        .style("text-anchor","middle")
+        .text("Fertility")
+  
+      svg.append("g")
+        .attr("fill","none")
+        .attr("stroke-width",1.5)
+        .attr("stroke-opacity", 1)
+        .selectAll("path")
+        .data(data)
+        .join("path")
+        .attr("stroke",d=>color(d.Diagnosis))
+        .attr("d", d=>line(d3.cross(keys, [d], (key, d) => [key, d[key]])))
+        
+      svg.append("g")
+        .selectAll("g")
+        .data(keys)
+        .join("g")
+        .attr("transform", d=> `translate(${x(d)})`)
+        .each(function(d) {d3.select(this).call(d3.axisLeft(y.get(d)))})
+        .style("stroke-width",2)
+        .style("font-weight","bold")      
+
+      const annotations = keys.map((d,i)=>{
+        return{
+        x:x(d),
+        y:95,
+        dy:-30,
+        dx: 0,
+      color:"black",
+        note:{
+          title:d
+        }
+        }})
+      
+      const type = d3.annotationCustomType(
+        d3.annotationLabel,
+        {"className":"custom",
+        "connector":{"end":"dot"},
+        "note":{"lineType":"horizontal",
+        "align":"middle"}})
+  
+      const makeAnnotations = d3.annotation()
+        .type(type)
+        .textWrap(80)
+        .annotations(annotations)
+  
+      svg.append("g")
+        .call(makeAnnotations)
+      
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://archive.ics.uci.edu/ml/datasets/Fertility" target="_blank">
+              UCI Machine Learning Repository: Fertility Data Set
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
