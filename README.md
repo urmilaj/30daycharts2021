@@ -2,7 +2,7 @@
 
 Charts were originally published using Observable. You can find the collection here [*Urmila J - 30daychartchallenge.*](https://observablehq.com/collection/@urmilaj/30daychartchallenge)
 
-The purpose of this repository is for providing the charts in vanilla format.
+The purpose of this repository is for recreating the charts in vanilla format.
 
 # Week 1 topic: Comparisons.
 - Day 1: Part to Whole. [Phylogeny](phylogeny.html)
