@@ -24,3 +24,4 @@ The purpose of this repository is for recreating the charts in vanilla format.
 - Day 13: Correlation [Seoul Bike Sharing](bikeShare.html)
 - Day 14: Space [Space Tech Companies and Venture Capitals](spaceTech.html)
 - Day 15: Multivariate [Fertility](fertility.html)
+- Day 16: Trees [Sacred Groves of India](grove.html)
