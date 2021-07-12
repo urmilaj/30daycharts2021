@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>KPOP</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+          svg {
+              display: block;
+              margin: auto;
+              margin-top: 20px;
+              margin-bottom: 20px;
+          }
+  
+          p {
+              text-align: center;
+              margin: auto;
+              font-size: 1.3em;
+              width: 900px;
+          }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 3: Relationships. Day 17: Pop Culture.</header>
+    <br>
+    <p>A circular dendogram showing evolution of the number of members in a group. The 90's, 2000's and 2010's had a lot of five member groups, to be more precise, this dataset has a total of 80 five member groups. But 2020's has seen a shift from five member groups to seven member groups. The 2010's dendogram is zoomable, zoom and explore.</p>
+    <br>
+    <div class="chart"></div>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+          width = 900 - margin.right - margin.left,
+          height = 800 - margin.top - margin.bottom,
+          padding = 3;
+
+    
+                  
+    d3.csv("data/kpop.csv", d => {
+      return {
+        era : +d.era,
+        year: +d.year,
+        name: d.name,
+        number: +d.number
+      }
+    }).then(function(data){
+      
+      const group = d3.group(data,d=>d.era,d=>d.year,d=>d.number)
+
+      chart = (data, title)=> {
+
+        const svg = d3.select(".chart")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","black")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+  
+        const hierarchy = d3.hierarchy(data)
+        
+        const tree = d3.tree()
+                      .size([2*Math.PI,220])
+        
+        const root = tree(hierarchy)
+
+        const linkRadial = d3.linkRadial()
+                            .angle(d=>d.x)
+                            .radius(d=>d.y)
+        
+        svg.append("text")
+          .attr("x",width/2)
+          .attr("y",10)
+          .attr("text-anchor","middle")
+          .style("font-size","3em")
+          .style("font-weight","bold")
+          .style("fill","#f9ae91")
+          .text(title)
+        
+        svg.append("g")
+          .attr("transform",`translate(${width/2},${height/2+20})`)
+          .selectAll("radial")
+          .data(root.links())
+          .join("path")
+          .attr("d",linkRadial)
+          .style("fill","none")
+          .style("stroke","#f9ae91")
+          .style("stroke-width",1.5)
+        
+        svg.append("g")
+              .attr("transform",`translate(${width/2},${height/2+20})`)
+              .attr("font-family","sans-serif")
+              .attr("font-size",10)
+              .attr("stroke-linejoin",3)
+              .attr("stroke-width",3)
+              .selectAll("text")
+              .data(root.descendants())
+              .join("text")
+              .attr("transform",d=>`
+                    rotate(${d.x*180 / Math.PI-90})
+                    translate(${d.y},0)
+                    rotate(${d.x >=Math.PI?180:0})
+                    `)
+              .attr("dy","0.31em")
+              .attr("x",d=>d.x<Math.PI === !d.children? 6:-6)
+              .style("fill","#f9ae91")
+              .style("font-size","1.5em")
+              .attr("text-anchor",d=>d.x<Math.PI === !d.children?"start":"end")
+              .text(d=>d.depth==3?d.data.name:d.data[0])
+              .clone(true)
+              .lower()
+              .attr("stroke","#15166d")
+              .attr("stroke-width",5)
+        }
+
+        chart2 = (data, title) => {
+
+          const svg = d3.select(".chart")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .attr("viewBox",[0,0,width/2-250,height+750])
+                  .style("background-color","black")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+  
+          const hierarchy = d3.hierarchy(data)
+          
+          const tree = d3.tree()
+                        .size([2*Math.PI,570])
+          
+          const root = tree(hierarchy)
+              
+          const linkRadial = d3.linkRadial()
+                              .angle(d=>d.x)
+                              .radius(d=>d.y)
+
+          const g = svg.append("g")
+          
+          g.append("text")
+            .attr("x",0)
+            .attr("y",20)
+            .attr("text-anchor","middle")
+            .style("font-size","5em")
+            .style("font-weight","bold")
+            .style("fill","#f9ae91")
+            .text(title)
+          
+          g.append("g")
+            .attr("transform",`translate(${width/2-380},${height/2+350})`)
+            .selectAll("radial")
+            .data(root.links())
+            .join("path")
+            .attr("d",linkRadial)
+            .style("fill","none")
+            .style("stroke","#f9ae91")
+            .style("stroke-width",1.5)
+          
+          g.append("g")
+                .attr("transform",`translate(${width/2-380},${height/2+350})`)
+                .attr("font-family","sans-serif")
+                .attr("font-size",10)
+                .attr("stroke-linejoin",3)
+                .attr("stroke-width",3)
+                .selectAll("text")
+                .data(root.descendants())
+                .join("text")
+                .attr("transform",d=>`
+                      rotate(${d.x*180 / Math.PI-90})
+                      translate(${d.y},0)
+                      rotate(${d.x >=Math.PI?180:0})
+                      `)
+                .attr("dy","0.31em")
+                .attr("x",d=>d.x<Math.PI === !d.children? 6:-6)
+                .style("fill","#f9ae91")
+                .style("font-size","1em")
+                .attr("text-anchor",d=>d.x<Math.PI === !d.children?"start":"end")
+                .text(d=>d.depth==3?d.data.name:d.data[0])
+                .clone(true)
+                .lower()
+                .attr("stroke","#15166d")
+                .attr("stroke-width",5)
+          
+          svg.call(d3.zoom()
+                    .extent([[0,0],[width,height]])
+                    .scaleExtent([1,8])
+                    .on("zoom",zoomed))
+          
+          function zoomed({transform}) {
+            g.attr("transform",transform)
+          }
+  
+        }
+
+        chart(group.get(1990),"90's")
+        chart(group.get(2000),"00's")
+        chart2(group.get(2010),"2010's")
+        chart(group.get(2020),"2020's")
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://en.wikipedia.org/wiki/List_of_South_Korean_idol_groups" target="_blank">
+              List of South Korean idol groups. In Wikipedia, The Free Encyclopedia.
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
