@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Quentin Tarantino movies and profanity</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+          svg {
+              display: block;
+              margin: auto;
+          }
+  
+          p {
+              text-align: center;
+              margin: auto;
+              font-size: 1.3em;
+              width: 900px;
+          }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 3: Relationships. Day 18: Connections.</header>
+    <br>
+    <p>A force directed graph showing Quentin Tarantino movies and types of profanities used in each movie and the number of times they were used.</p>
+    <br>
+    <div class="chart"></div>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+      width = 900 - margin.right - margin.left,
+      height = 650 - margin.top - margin.bottom;
+
+
+                  
+    d3.csv("data/quentin_tarantino.csv", d => {
+      return {
+        movie: d.movie,
+        type: d.type,
+        word: d.word,
+        count: +d.count
+      }
+    }).then(function(data){
+      const group = d3.group(data,d=>d.movie)
+      chart = (data,color,title) => {
+
+
+        const group = d3.group(data,d=>d.word)
+
+        const root = d3.hierarchy(group)
+
+        const links = root.links()
+
+        const nodes = root.descendants()
+
+        const radius = d3.scaleSqrt()
+          .domain(d3.extent(nodes.filter(d=>d.depth==2),d=>d.data.count))
+          .range([15,50])
+
+
+
+        const simulation = d3.forceSimulation(nodes.filter(d=>d.depth==2))
+          .force("link",d3.forceLink(links).distance(0).strength(0.02))
+          .force("charge",d3.forceManyBody().strength(-100))
+          .force("x",d3.forceX().strength(0.05))
+          .force("y",d3.forceY().strength(0.05))
+              
+        const svg = d3.select(".chart")
+          .append("svg")
+          .attr("width",width+margin.left+margin.right)
+          .attr("height",height+margin.top+margin.bottom)
+          .attr("viewBox", [-width / 2, -height / 2, width, height-50])
+          .style("background-color","black")
+
+        svg.append("text")
+          .attr("y",-250)
+          .attr("text-anchor","middle")
+          .style("font-size","3em")
+          .style("font-family","Showcard Gothic")
+          .style("fill","white")
+          .text(title)
+
+        const link = svg.append("g")
+          .attr("stroke",color)
+          .attr("stroke-opacity",1)
+          .attr("stroke-width",2)
+          .selectAll("line")
+          .data(links)
+          .join("line")
+
+        const node = svg.append("g")
+          .attr("fill",color)
+          .attr("stroke","black")
+          .selectAll("circle")
+          .data(nodes)
+          .join("circle")
+          .attr("r",d=>d.depth==2?radius(d.data.count):5)
+
+
+        const text = svg.append("g")
+          .attr("class", "text")
+          .selectAll("text")
+          .data(nodes)
+          .join("text")
+          .text(d => d.depth==2?d.data.word+": "+d.data.count:" ")
+          .style("fill","white")
+            
+              
+
+        simulation.on("tick", ()=>{
+          link.attr("x1",d=>d.source.x)
+            .attr("y1",d=>d.source.y)
+            .attr("x2",d=>d.target.x)
+            .attr("y2",d=>d.target.y)
+          
+          node.attr("cx",d=>d.x)
+            .attr("cy",d=>d.y)
+        
+          text.attr("x",d=>d.x)
+            .attr("y",d=>d.y)
+        })
+               
+        }
+      chart(group.get("Reservoir Dogs"),"#801719","Reservoir Dogs")
+      chart(group.get("Pulp Fiction"),"#db7815", "Pulp Fiction")
+      chart(group.get("Kill Bill: Vol. 1"),"#87528b","Kill Bill: Vol. 1")
+      chart(group.get("Kill Bill: Vol. 2"),"#0c1078","Kill Bill: Vol. 2")
+      chart(group.get("Inglorious Basterds"),"#d31954","Inglorious Basterds")
+      chart(group.get("Django Unchained"),"#8275f2","Django Unchained")
+      chart(group.get("Jackie Brown"),"#59124a","Jackie Brown")
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://github.com/fivethirtyeight/data/tree/master/tarantino" target="_blank">
+              FiveThirtyEight
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
