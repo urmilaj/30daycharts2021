@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>World Forest Area</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 900px;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 4: Timeseries. Day 19: Global Change.</header>
+    <br>
+    <p>A line chart showing a decline in forest area as a percentage of land area.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+      width = 900 - margin.right - margin.left,
+      height = 600 - margin.top - margin.bottom;
+
+    const svg = d3.select("body")
+      .append("svg")
+      .attr("width",width+margin.left+margin.right)
+      .attr("height",height+margin.top+margin.bottom)
+      .style("background-color","#7471a1")
+      .append("g")
+      .attr("transform",`translate(${margin.left},${margin.top})`)
+                  
+    d3.csv("data/forestArea.csv").then(function(data){
+      const formatYear = d3.timeParse("%Y")
+
+      const x = d3.scaleTime()
+        .domain(d3.extent(data,d=>formatYear(d.year)))
+        .range([margin.left,width-margin.right])
+
+      const y = d3.scaleLinear()
+        .domain(d3.extent(data,d=>d.area))
+        .range([height-margin.bottom,margin.top])
+
+      const xAxis = g => g.attr("transform",`translate(0,${height-margin.bottom})`)
+        .call(d3.axisBottom(x))
+
+      const yAxis = g => g.attr("transform",`translate(${margin.left},0)`)
+        .call(d3.axisLeft(y))
+      
+      const line = d3.line()
+        .x(d=>x(formatYear(d.year)))
+        .y(d=>y(d.area))
+        .curve(d3.curveCatmullRom)
+
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",0)
+        .style("text-anchor","middle")
+        .style("font-size","3em")
+        .style("fill","#6ef32b")
+        .text("World Forest Area");
+
+      svg.append("g")
+        .call(xAxis)
+        .attr("color","#58b56b")
+        .style("font-size","0.9em")
+        .style("font-weight","bold");
+
+      svg.append("g")
+        .call(yAxis)
+        .attr("color","#58b56b")
+        .style("font-size","0.8em")
+        .style("font-weight","bold");
+      
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",height)
+        .style("text-anchor","middle")
+        .text("Year")
+        .style("fill","#6ef32b")
+        .style("font-weight","normal");
+      
+      svg.append("text")
+        .attr("x",-height/2+140)
+        .attr("y",0)
+        .text("Forest area (% of land area) in sq. km")
+        .style("text-anchor","end")
+        .attr("transform","rotate(-90)")
+        .style("fill","#6ef32b");
+      
+      svg.append("path")
+        .datum(data)
+        .attr("fill","none")
+        .attr("stroke","#6ef32b")
+        .attr("stroke-width",3.5)
+        .attr("d",line);
+      
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://data.worldbank.org/indicator/AG.LND.FRST.ZS" target="_blank">
+              The World Bank
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
