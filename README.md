@@ -27,3 +27,6 @@ The purpose of this repository is for recreating the charts in vanilla format.
 - Day 16: Trees [Sacred Groves of India](grove.html)
 - Day 17: Pop Culture [Kpop](kpop.html)
 - Day 18: Connections [Quentin Tarantino movies and profanity](profanity.html)
+
+# Week 4 topic: Timeseries.
+- Day 19: Global Change [World Forest Area](forest.html)
