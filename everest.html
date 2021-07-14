@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Mount Everest Summits</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 900px;
+      }
+
+      .annotation-note-bg{
+        fill:white;
+        fill-opacity:0.9;
+        }
+
+      .annotation-note-title{
+      fill:#7a66a5;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  </head>
+  <body>
+    <header>Week 4: Timeseries. Day 20: Upwards.</header>
+    <br>
+    <p>A line chart showing the number of successful summits made on Mount Everest between 1950 - 2010. In 1950 there were only six people who successfully summited Everest but this number has steadily grown over the years. In 2010, five thousand five hundered and sixty two people made it to the summit.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+          width = 940 - margin.right - margin.left,
+          height = 900 - margin.top - margin.bottom;
+
+    const svg = d3.select("body")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","#7a66a5")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+   
+      d3.csv("data/summits.csv", d => {
+        return {
+          count: +d.count,
+          year: +d.year
+        }
+      }).then(function(data){
+        
+      const formatYear = d3.timeParse("%Y")
+
+      const x =  d3.scaleTime()
+        .domain(d3.extent(data,d=>formatYear(d.year)))
+        .range([margin.left+15,width-margin.right])
+
+      const y = d3.scaleLinear()
+        .domain([5,d3.max(data,d=>d.count)])
+        .range([height-margin.bottom,margin.top])
+
+      const xAxis = g => g.attr("transform",`translate(0,${height-margin.bottom})`)
+        .call(d3.axisBottom(x))
+
+      const yAxis = g => g.attr("transform",`translate(${margin.left-10},0)`)
+        .call(d3.axisLeft(y))
+        .call(g => g.selectAll(".tick line")
+                .clone()
+                .style("stroke","#e0eddc")
+                .attr("stroke-opacity",0.4)
+                .attr("x2",width-margin.right-20))
+        .call(g=>g.select(".domain").remove())
+
+      const line = d3.line()
+        .x(d=>x(formatYear(d.year)))
+        .y(d=>y(d.count))
+        .curve(d3.curveCatmullRom)
+
+      svg.append("image")
+        .attr("href","data/MountEverest.png")
+        .attr("width",width)
+        .attr("height",height-margin.bottom)
+        .attr("x",width/2-20)
+        .attr("y",5)
+
+      svg.append("g")
+        .call(xAxis)
+        .attr("color","#e0eddc")
+        .style("font-weight","bold")
+        .style("font-size","1.1em")
+      
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",height)
+        .style("text-anchor","middle")
+        .text("Year")
+        .style("fill","white")
+        .style("font-size","1.5em")
+        .style("font-weight","normal");
+      
+      svg.append("g")
+        .call(yAxis)
+        .attr("color","#e0eddc")
+        .style("font-weight","bold")
+        .style("font-size","1.1em")
+      
+      svg.append("text")
+        .attr("x",-height/2+140)
+        .attr("y",-25)
+        .text("Number of summits")
+        .style("text-anchor","end")
+        .attr("transform","rotate(-90)")
+        .style("font-size","1.5em")
+        .style("fill","white");
+      
+      svg.append("path")
+        .datum(data)
+        .attr("d",line)
+        .attr("fill","none")
+        .style("stroke","#e0eddc")
+        .style("stroke-width",3)
+          
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",0)
+        .style("font-family","Bradley Hand ITC")
+        .text("Mount Everest Summits")
+        .style("fill","white")
+        .style("font-size","2.5em")
+        .style("text-anchor","middle")
+
+     
+      const annotations = data.map((d,i)=>{
+        return {
+          x:x(formatYear(d.year)),
+          y:y(d.count),
+          dx:0,
+          dy:-30,
+          color:"white",
+          className: "show-bg",
+          note:{
+            title: d.count + " successful summits"
+          }
+        }
+      })
+  
+      const type = d3.annotationCustomType(
+        d3.annotationLabel,
+        {"className":"custom",
+        "connector":{"end":"dot"},
+        "note":{
+        "align":"middle"}})
+  
+      const makeAnnotations = d3.annotation()
+                                .type(type)
+                                .textWrap(10)
+                                .annotations(annotations)
+  
+      svg.append("g")
+       .call(makeAnnotations)
+
+
+
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://www.himalayandatabase.com/" target="_blank">
+              The Himalayan Database
+            </a>
+        </p>
+        <p>Image Credit:
+          <a href="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Everest_kalapatthar.jpg/800px-Everest_kalapatthar.jpg" target="_blank">
+            Pavel Novak
+          </a>
+        </p>
+    </footer>
+  </body>
+</html>
