@@ -31,3 +31,4 @@ The purpose of this repository is for recreating the charts in vanilla format.
 # Week 4 topic: Timeseries.
 - Day 19: Global Change [World Forest Area](forest.html)
 - Day 20: Upwards [Mount Everest Summits](everest.html)
+- Day 21: Downwards [World Crude Birth Rate](birth.html)
