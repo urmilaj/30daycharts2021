@@ -1,3 +1,7 @@
+![Banner Image](data/banner.png)
+
+<br>
+
 # 30daycharts2021
 
 Charts were originally published using Observable. You can find the collection here [*Urmila J - 30daychartchallenge.*](https://observablehq.com/collection/@urmilaj/30daychartchallenge)
