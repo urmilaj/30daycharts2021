@@ -51,7 +51,7 @@
         .range([margin.left,width-margin.right])
 
       const y = d3.scaleLinear()
-        .domain(d3.extent(data,d=>d.area))
+        .domain(d3.extent(data,d => +d.area))
         .range([height-margin.bottom,margin.top])
 
       const xAxis = g => g.attr("transform",`translate(0,${height-margin.bottom})`)
@@ -62,7 +62,7 @@
       
       const line = d3.line()
         .x(d=>x(formatYear(d.year)))
-        .y(d=>y(d.area))
+        .y(d=>y(+d.area))
         .curve(d3.curveCatmullRom)
 
       svg.append("text")
