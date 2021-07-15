@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>World Crude Birth Rate</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 900px;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 4: Timeseries. Day 21: Downwards.</header>
+    <br>
+    <p>A line chart showing world crude birth rate falling between the years 1960 to 2018.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+          width = 900 - margin.right - margin.left,
+          height = 650 - margin.top - margin.bottom;
+
+    const svg = d3.select("body")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","#d4def3")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+                  
+    d3.csv("data/worldbirthrate.csv", d => {
+      return {
+        year: +d.year,
+        crude_birth_rate: +d.crude_birth_rate
+      }
+    }).then(function(data){
+      const formatYear = d3.timeParse("%Y");
+
+      const x = d3.scaleTime()
+        .domain(d3.extent(data,d=>formatYear(d.year)))
+        .range([margin.left,width-margin.right]);
+
+      const xAxis = g => g.attr("transform",`translate(0,${height-margin.bottom})`)
+        .call(d3.axisBottom(x));
+
+      const y = d3.scaleLinear()
+        .domain(d3.extent(data,d=>d.crude_birth_rate))
+        .range([height-margin.bottom,margin.top]);
+
+      const yAxis = g => g.attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y));
+
+      const line = d3.line()
+        .x(d=>x(formatYear(d.year)))
+        .y(d=>y(d.crude_birth_rate))
+        .curve(d3.curveMonotoneX);
+
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",0)
+        .text("World Crude Birth Rate (1960-2018)")
+        .style("text-anchor","middle")
+        .style("font-size","2em")
+        .style("fill","#652bc9")
+        .style("font-weight","bold")
+  
+ 
+      const path = svg.append("path")
+        .datum(data)
+        .attr("d",line)
+        .attr("fill","none")
+        .attr("stroke","white")
+        .attr("stroke-width",3.5)
+      
+      const length = path.node().getTotalLength()
+      
+      path.attr("stroke-dasharray",length+" "+length)
+        .attr("stroke-dashoffset",length)
+        .transition()
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset",0)
+        .duration(5500)
+      
+      svg.append("g")
+        .call(xAxis)
+        .attr("color","#652bc9")
+        .style("font-weight","bold")
+      
+      svg.append("g")
+        .call(yAxis)
+        .attr("color","#652bc9")
+        .style("font-weight","bold")
+      
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",height)
+        .style("text-anchor","middle")
+        .style("fill","#652bc9")
+        .style("font-size","1.8em")
+        .text("Year")
+      
+      svg.append("text")
+        .attr("x",-height/2+190)
+        .attr("y",10)
+        .text("Crude Bith Rate (per 1000 people)")
+        .style("text-anchor","end")
+        .attr("transform","rotate(-90)")
+        .style("font-size","1.8em")
+        .style("fill","#652bc9");
+
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://data.worldbank.org/indicator/SP.DYN.CBRT.IN" target="_blank">
+              The World Bank
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
