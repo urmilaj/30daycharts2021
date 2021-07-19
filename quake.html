@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Earthquakes (1900-2014)</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 900px;
+      }
+
+      form, select {
+        display:block;
+        margin:auto;
+        text-align:center;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+  </head>
+  <body>
+    <header>Week 4: Timeseries. Day 22: Animation.</header>
+    <br>
+    <p>An interactive visualization of earthquakes that occurred during 1900-2014 visualized as a map and lollipop chart. Use the dropdown button below to view earthquakes for each year. Hover the lollipop chart for more info on earthquake location and magnitude.</p>
+    <br>
+    <select id="selectButton"></select>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50, mapTop:40, bubbleTop:730 },
+      width = 900 - margin.right - margin.left,
+      height = 1400 - margin.top - margin.bottom;
+
+    const svg = d3.select("body")
+      .append("svg")
+      .attr("width",width+margin.left+margin.right)
+      .attr("height",height+margin.top+margin.bottom)
+      .style("background-color","#e2e4e7")
+      .append("g")
+      .attr("transform",`translate(${margin.left},${margin.top})`)
+
+    const parseTime = d3.timeParse("%d-%m-%Y");
+
+    d3.select("#selectButton")
+      .selectAll("options")
+      .data(d3.range(1900,2015))
+      .join("option")
+      .text(d => +d)
+      .attr("value", d => +d);
+
+    Promise.all([d3.json("data/50m.json"),
+    d3.csv("data/earthquake.csv", d => {
+      return {
+        Date: parseTime(d.Date),
+        Latitude: +d.Latitude,
+        Longitude: +d.Longitude,
+        Magnitude: +d.Magnitude,
+        Place: d.Place,
+        Year: +d.Year
+      }
+    })]).then(function(initialize){
+      const world = initialize[0]
+      const data = initialize[1]
+
+      const land = topojson.feature(world,world.objects.land)
+
+      const projection = d3.geoNaturalEarth1()
+        .fitExtent([[0,margin.mapTop],[width,700]],{type:"Sphere"})
+        .precision(0.1)
+        .scale(165)
+
+      const path = d3.geoPath()
+         .projection(projection)
+         
+      
+      function update(selectedYear) {
+        d3.selectAll("g > *").remove()
+        
+        let filter = data.filter(d=>d.Year==selectedYear)
+
+        const x = d3.scaleTime()
+          .domain(d3.extent(filter,d=>(d.Date)))
+          .range([margin.left,width-margin.right])
+
+
+        const xAxis = g => g.attr("transform",`translate(0,${height-margin.bottom})`)
+          .call(d3.axisBottom(x))
+
+        const y = d3.scaleLinear()
+          .domain(d3.extent(filter,d=>d.Magnitude))
+          .range([height-margin.bottom,margin.bubbleTop])
+
+        const yAxis = g => g.attr("transform",`translate(${margin.left},0)`)
+          .call(d3.axisLeft(y))
+          .call(g => g.selectAll(".tick line")
+            .clone()
+            .style("stroke","gray")
+            .attr("stroke-opacity",0.4)
+            .attr("x2",width-margin.right-50))
+          .call(g=>g.select(".domain").remove())
+
+        const radius = d3.scaleSqrt()
+            .domain(d3.extent(filter,d=>d.Magnitude))
+            .range([5,15])
+
+        svg.append("text")
+          .attr("class","chartTitle")
+          .attr("x",width/2)
+          .attr("y",50)
+          .style("text-anchor","middle")
+          .text("Earthquakes: "+selectedYear)
+          .style("font-size","3em")
+          .style("font-weight","bold")
+
+        const map = svg.append("g").attr("class","map")
+    
+        map.append("path")
+          .datum(land)
+          .attr("d",path)
+          .attr("fill","#7770a0")
+          .attr("stroke","indigo")
+          .style("opacity",0.75)
+    
+        const quakes = map.selectAll("quake")
+          .data(filter)
+          .join("circle")
+          .attr("class","quake")
+          .attr("cx",d=>projection([d.Longitude,d.Latitude])[0])
+          .attr("cy",d=>projection([d.Longitude,d.Latitude])[1])
+          .attr("r",0)
+          .attr("fill","indigo")
+          .attr("stroke","orange")
+          .attr("stroke-width",2)
+        
+        quakes.transition()
+          .duration(1200)
+          .ease(d3.easeLinear)
+          .attr("r",d=>radius(d.Magnitude))     
+
+        svg.append("g")
+          .call(xAxis)
+        
+        svg.append("g")
+          .call(yAxis)
+        
+        svg.append("text")
+          .attr("x",-height+350)
+          .attr("y",10)
+          .text("Magnitude")
+          .style("text-anchor","end")
+          .attr("transform","rotate(-90)")
+          .style("font-size","1.1em")
+        
+        svg.append("text")
+          .attr("class","hoverText")
+          .attr("x",width/2)
+          .attr("y", height/2+25)
+          .style("text-anchor","middle")
+          .style("font-size","2em")
+          .text("Hover over lollipop chart for info.")
+        
+        const g = svg.append("g")
+     
+        const bubbles = g.selectAll("circle")
+          .data(filter)
+          .join("circle")
+          .attr("class","bubble")
+          .attr("cx",d=>x(d.Date))
+          .attr("cy",height-margin.bottom)
+          .attr("r",0)
+          .attr("stroke","orange")
+          .attr("stroke-width",3)
+          .style("fill","indigo")
+          .style("opacity",0.75)
+          
+        bubbles.transition()
+          .duration(1200)
+          .ease(d3.easeLinear)
+          .attr("cx",d=>x(d.Date))
+          .attr("cy",d=>y(d.Magnitude))
+          .attr("r",d=>radius(d.Magnitude))
+     
+        const bubbleLine = g.selectAll("line")
+          .data(filter)
+          .join("line")
+          .attr("class","bubbleLine")
+          .attr("x1",d=>x(d.Date))
+          .attr("y1",d=>height-margin.bottom)
+          .attr("x2",d=>x(d.Date))
+          .attr("y2",height-margin.bottom)
+          .attr("fill","none")
+          .style("stroke","black")
+          
+        bubbleLine.transition()
+          .duration(1200)
+          .ease(d3.easeLinear)
+          .attr("y1",d=>y(d.Magnitude))
+          
+        bubbles.on("mouseover touchstart",function(event,d){
+            d3.select(".hoverText").text(d.Place+" : Magnitude "+d.Magnitude)
+            d3.selectAll(".quake").attr("fill",v =>v.Place==d.Place?"indigo":"lightgrey")})
+          .on("mouseout touchend", function(event,d){
+            d3.select(".hoverText").text("Hover over lollipop chart for info.")
+            d3.selectAll(".quake").attr("fill","indigo")
+          })
+      }           
+
+      let currentYear = d3.select("#selectButton").on("change", function(event,d){
+        let selectedOption = d3.select(this).property("value")
+        update(selectedOption)
+      })
+
+      update(1900)
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://public.tableau.com/en-us/s/resources" target="_blank">
+              Tableau
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
