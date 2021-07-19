@@ -36,3 +36,4 @@ The purpose of this repository is for recreating the charts in vanilla format.
 - Day 19: Global Change [World Forest Area](forest.html)
 - Day 20: Upwards [Mount Everest Summits](everest.html)
 - Day 21: Downwards [World Crude Birth Rate](birth.html)
+- Day 22: Animation [Earthquakes (1900-2014)](quake.html)
