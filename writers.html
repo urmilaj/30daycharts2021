@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>African American Writers</title>
+    <style>
+       header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          background-color: rgb(189, 161, 161);
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 900px;
+      }
+
+      .writerTooltip{
+        text-align: center;
+        max-width: 300px;
+        position: fixed;
+        background-color: white;
+        padding: 5px;
+        pointer-events: none;
+        border:solid;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/textures@1.2.0/dist/textures.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js" integrity="sha512-wNH6xsp2n8CfB91nrBtfc4sfLwYPBMjSWVUwQOp60AYYXH6i8yCwuKFZ4rgK2i6pQek/b+bSyR7b01/922IBzQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  <body>
+    <header>Week 4: Timeseries. Day 23: Tiles.</header>
+    <br>
+    <p>A chronological visualization of 100 African American Authors. Each tile is an individual writer with colour indicating the type of work they did.<br>- Hover over each tile for more information about the writer.</br>- Click on individual tile to read their literary work.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+      width = 900 - margin.right - margin.left,
+      height = 800 - margin.top - margin.bottom;
+
+    const svg = d3.select("body")
+      .append("svg")
+      .attr("width",width+margin.left+margin.right)
+      .attr("height",height+margin.top+margin.bottom)
+      .append("g")
+      .attr("transform",`translate(${margin.left},${margin.top})`)
+    
+    const authorTooltip = d3.select("body")
+      .append("div")
+      .attr("class","writerTooltip")
+      .style("visibility","hidden")
+                  
+    d3.csv("data/africanAmericanWriters.csv").then(function(data){
+
+      const pattern = textures.lines()
+        .size(7)
+        .strokeWidth(0.9)
+        .background("transparent")
+        .stroke("#6b3395");
+
+      svg.call(pattern);
+
+      const size = 600;
+      const squareSize = 60;
+      const color = ["#fed7af","#00ffff","#89065b","#ffea47","#e94f37","#6477b9","#fbd1fb","#ffa50a","#ffffff"];
+      
+      const authorTooltip = d3.select("body")
+        .append("div")
+        .attr("class","writerTooltip")
+        .style("visibility","hidden");
+      
+      
+      const scale = d3.scaleLinear()
+        .domain([0,10])
+        .range([0,size]);
+
+      const colorScale = d3.scaleOrdinal()
+        .domain(["activist","artist","author","journalist",
+                "playwright","poet","publisher","scholar","sociologist"])
+        .range(color);
+
+      svg.append("g")
+        .attr("class", "legendOrdinal")
+        .attr("transform", `translate(${width/2-300},20)`);
+
+      const legendOrdinal = d3.legendColor()
+        .shape("circle")
+        .shapePadding(55)
+        .scale(colorScale)
+        .orient('horizontal');
+
+      svg.select(".legendOrdinal")
+        .call(legendOrdinal);
+      
+      const waffle = svg.append("g")
+        .attr("transform",`translate(${width/2-290},100)`)
+        .selectAll("rect")
+        .data(data)
+        .enter()
+        .append("a")
+        .attr("xlink:href",d=>d.Work)
+        .attr("target","_blank")
+        .append("rect")
+        .attr("class","waffle")
+        .attr("x",(d,i)=>{
+          const n = i % 10
+          return scale(n)
+        })
+        .attr("y",(d,i)=>{
+          const n = Math.floor(i/10)
+          return scale(n)
+        })
+        .attr("width",squareSize-10)
+        .attr("height",squareSize-10)
+        .attr("stroke-width",1.5)
+        .attr("stroke",d=>colorScale(d.Type))
+        .style("fill",d=> {if (d.Awards!="-"){return pattern.url()}
+                          else {return "transparent"}})
+        .on("mousemove",function (event,d){
+          d3.select(this).style("opacity",1).attr("stroke-width",3)
+          
+          authorTooltip.transition()
+                        .duration(200)
+                        .style("visibility","visible")
+
+          authorTooltip.html("<h1>"+d.Name+"("+d.YearWritten+")"+"</h1><br/>"+d.About)
+                        .style("transform","translateY(-55%)")  
+                        .style("left",(event.x)+10+"px")
+                        .style("top",(event.y)-15+"px")})
+        .on("mouseout",function (event,d){
+          d3.select(this).style("opacity",1).attr("stroke-width",2)
+          authorTooltip.transition().style("visibility","hidden")
+        })
+      
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://en.wikipedia.org/wiki/List_of_African-American_writers" target="_blank">
+              Wikipedia - List of African-American writers
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
