@@ -38,3 +38,4 @@ The purpose of this repository is for recreating the charts in vanilla format.
 - Day 21: Downwards [World Crude Birth Rate](birth.html)
 - Day 22: Animation [Earthquakes (1900-2014)](quake.html)
 - Day 23: Tiles [African American Writers](writers.html)
+- Day 24: Monochrome [Studio Ghibli](ghibli.html)
