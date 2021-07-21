@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Studio Ghibli</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 900px;
+      }
+
+      .annotation-note-title, .annotation-note-label{
+        fill:white;
+        font-family:'Roboto';
+      }
+      .annotation-connector{
+        display:none;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  </head>
+  <body>
+    <header>Week 4: Timeseries. Day 24: Monochrome.</header>
+    <br>
+    <p>A radial chart visualization of rotten tomatoes score for each Studio Ghibli movie.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50, radialLeft: 50, radialTop: 180 },
+          width = 900 - margin.right - margin.left,
+          height = 1300 - margin.top - margin.bottom;
+
+    const svg = d3.select("body")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","black")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+                  
+    d3.json("data/ghibli.json").then(function(data){
+      const films = data.films
+
+      const x = d3.scaleLinear()
+        .domain([0,5])
+        .range([margin.left,width])
+
+      const y = d3.scaleLinear()
+        .domain([0,5])
+        .range([margin.top,height-margin.bottom])
+
+      const score = d3.scaleLinear()
+        .domain([0,d3.max(films,d=>+d.rt_score)])
+        .range([0,Math.PI*2])
+
+      const arc = d3.arc()
+        .startAngle(0)
+        .endAngle(d=>score(+d.rt_score))
+        .innerRadius(40)
+        .outerRadius(50)
+
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",30)
+        .text("STUDIO GHIBLI")
+        .style("fill","white")
+        .style("text-anchor","middle")
+        .style("font-family","Roboto")
+        .style("font-size","2em")
+  
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",55)
+        .text("Week 4: Timeseries. Day 24: Monochrome.")
+        .style("fill","white")
+        .style("text-anchor","middle")
+        .style("font-family","Roboto")
+        .style("font-size","1.2em")
+  
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",75)
+        .text("#30DayChartChallenge")
+        .style("fill","white")
+        .style("text-anchor","middle")
+        .style("font-family","Roboto")
+        .style("font-size","1em")
+  
+      svg.append("g")
+        .attr("transform",`translate(${margin.radialLeft},${margin.radialTop})`)
+        .selectAll("path")
+        .data(films)
+        .join("path")
+        .attr("transform",(d,i)=>`translate(${x(i%5)},${y(Math.floor(i/5))})`)
+        .attr("d",arc)
+        .attr("fill","white")
+  
+      svg.append("g")
+        .attr("transform",`translate(${margin.radialLeft},${margin.radialTop})`)
+        .selectAll("text")
+        .data(films)
+        .join("text")
+        .attr("transform",(d,i)=>`translate(${x(i%5)},${y(Math.floor(i/5))})`)
+        .text(d=>d.rt_score)
+        .style("fill","white")
+        .style("text-anchor","middle")
+
+      const annotations = films.map((d,i)=>{
+        return {
+          x:x(i%5),
+          y:y(Math.floor(i/5)),
+          dx:0,
+          dy:-48.5,
+          color:"black",
+          note:{
+            title: d.title+ ", "+d.release_date,
+          }
+        }
+      })
+  
+      const type = d3.annotationCustomType(
+        d3.annotationLabel,
+        {"className":"custom",
+        "note":{
+        "align":"middle"}})
+  
+      const makeAnnotations = d3.annotation()
+        .type(type)
+        .textWrap(120)
+        .annotations(annotations)
+
+      svg.append("g")
+        .attr("transform",`translate(${margin.radialLeft},${margin.radialTop})`)
+        .call(makeAnnotations)
+
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://jamesanaipakos.com/ghibliapi/" target="_blank">
+              Studio Ghibli API
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
