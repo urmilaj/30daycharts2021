@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Anaemia in children</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 900px;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 5 : Uncertainties. Day 25: Demographic.</header>
+    <br>
+    <p>A chart showing anaemia in children.</p>
+    <br>
+    <div class="chart"></div>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+      width = 900 - margin.right - margin.left,
+      height = 550 - margin.top - margin.bottom; 
+    
+    const formatYear = d3.timeParse("%Y");
+                  
+    d3.csv("data/anaemia_in_children.csv", d => {
+      return {
+        region: d.region,
+        year: +d.year,
+        median: +d.median,
+        low: +d.low,
+        high: +d.high
+      }
+    }).then(function(data){
+      const group = d3.group(data,d=>d.region)
+      
+      const x = d3.scaleTime()
+        .domain(d3.extent(data,d=>formatYear(d.year)))
+        .range([margin.left,width-margin.right])
+      
+      const xAxis = g => g.attr("transform",`translate(0,${height-margin.bottom})`)
+        .call(d3.axisBottom(x))
+
+      const y = d3.scaleLinear()
+        .domain([0,100])
+        .range([height-margin.bottom,margin.top])
+
+      const yAxis = g => g.attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y))
+
+      const line = d3.line()
+        .x(d=>x(formatYear(d.year)))
+        .y(d=>y(d.median))
+      
+      const area = d3.area()
+        .x(d=>x(formatYear(d.year)))
+        .y0(d=>y(d.high))
+        .y1(d=>y(d.low))
+
+      chart = (data,text)=> {
+
+        const svg = d3.select(".chart")
+                .append("svg")
+                .attr("width",width+margin.left+margin.right)
+                .attr("height",height+margin.top+margin.bottom)
+                .style("background-color","#3d0046")
+                .append("g")
+                .attr("transform",`translate(${margin.left},${margin.top})`)
+
+        svg.append("text")
+          .attr("x",width/2)
+          .attr("y",height-8)
+          .style("text-anchor","middle")
+          .style("fill","#e3e077")
+          .style("font-size","1.1em")
+          .style("font-family","Times New Roman")
+          .text("Year")
+        
+        svg.append("text")
+          .attr("x",-height/2-105)
+          .attr("y",15)
+          .text("% of prevalence of anaemia")
+          .attr("transform","rotate(-90)")
+          .style("font-size","1.1em")
+          .style("font-family","Times New Roman")
+          .style("fill","#e3e077");
+          
+        svg.append("text")
+          .attr("x",width/2)
+          .attr("y",20)
+          .text(text)
+          .style("text-anchor","middle")
+          .style("font-size","1.5em")
+          .style("fill","#e3e077")
+          .style("font-family","Times New Roman")
+          .style("font-weight","bold")
+        
+        svg.append("g")
+          .call(xAxis)
+          .attr("color","#e3e077")
+        
+        svg.append("g")
+          .call(yAxis)
+          .attr("color","#e3e077")
+        
+        svg.append("path")
+          .datum(data)
+          .attr("d",area)
+          .attr("fill","#e3e077")
+          .attr("stroke","none")
+          .style("opacity",0.4)
+          
+        svg.append("path")
+          .datum(data)
+          .attr("d",line)
+          .attr("fill","none")
+          .attr("stroke","#e3e077")
+          .attr("stroke-width",2)
+      }
+
+      chart(group.get("Africa"),"Africa");
+      chart(group.get("Americas"),"Americas");
+      chart(group.get("South-East Asia"),"South-East Asia");
+      chart(group.get("Europe"),"Europe");
+      chart(group.get("Eastern Mediterranean"),"Eastern Mediterranean");
+      chart(group.get("Western Pacific"), "Western Pacific");
+
+
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://apps.who.int/gho/data/view.main.ANAEMIACHILDRENREGv?lang=en" target="_blank">
+              World Health Organisation
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
