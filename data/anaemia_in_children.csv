@@ -1,0 +1,121 @@
+﻿region,year,median,low,high
+Africa,2019,60.2,56.6,63.7
+Africa,2018,60.5,57.5,63.4
+Africa,2017,60.8,58.3,63.3
+Africa,2016,61,58.7,63.2
+Africa,2015,61.1,59.1,63.1
+Africa,2014,61.3,59.3,63.2
+Africa,2013,61.4,59.4,63.3
+Africa,2012,61.7,59.7,63.6
+Africa,2011,62.1,60.1,64.1
+Africa,2010,62.7,60.5,64.7
+Africa,2009,63.4,61.2,65.5
+Africa,2008,64.3,62,66.4
+Africa,2007,65.2,62.9,67.3
+Africa,2006,66.1,63.7,68.3
+Africa,2005,67,64.5,69.3
+Africa,2004,67.9,65.3,70.2
+Africa,2003,68.7,66.1,71.2
+Africa,2002,69.6,66.9,72.1
+Africa,2001,70.4,67.5,73.1
+Africa,2000,71.2,68,74.1
+Americas,2019,16.5,13.4,20.1
+Americas,2018,16.6,13.8,19.8
+Americas,2017,16.8,14.2,19.8
+Americas,2016,17.1,14.6,19.9
+Americas,2015,17.4,15,20
+Americas,2014,17.7,15.3,20.4
+Americas,2013,18,15.7,20.7
+Americas,2012,18.4,16.1,21.1
+Americas,2011,18.9,16.5,21.6
+Americas,2010,19.4,17,22.2
+Americas,2009,19.9,17.4,22.8
+Americas,2008,20.4,17.9,23.2
+Americas,2007,20.9,18.4,23.7
+Americas,2006,21.4,18.8,24.2
+Americas,2005,21.9,19.2,24.8
+Americas,2004,22.3,19.5,25.3
+Americas,2003,22.7,19.8,25.9
+Americas,2002,23,19.9,26.5
+Americas,2001,23.3,20.1,27
+Americas,2000,23.7,20.2,27.7
+South-East Asia,2019,49,39.2,57.9
+South-East Asia,2018,49.3,40.9,56.8
+South-East Asia,2017,49.6,42.4,56.2
+South-East Asia,2016,50,43.3,56.1
+South-East Asia,2015,50.5,44.2,56.4
+South-East Asia,2014,51,44.6,56.9
+South-East Asia,2013,51.7,45,57.7
+South-East Asia,2012,52.4,45.5,58.5
+South-East Asia,2011,53.1,46,59.3
+South-East Asia,2010,53.8,46.6,60
+South-East Asia,2009,54.6,47.3,60.9
+South-East Asia,2008,55.5,48.4,61.6
+South-East Asia,2007,56.4,49.3,62.2
+South-East Asia,2006,57.2,50.7,62.9
+South-East Asia,2005,58.1,51.8,63.5
+South-East Asia,2004,59,52.6,64.2
+South-East Asia,2003,60,53.7,65.3
+South-East Asia,2002,60.9,55,66.1
+South-East Asia,2001,62,56.3,66.9
+South-East Asia,2000,63.1,57.4,68
+Europe,2019,20.3,14.5,27.4
+Europe,2018,20,14.6,26.9
+Europe,2017,19.9,14.7,26.5
+Europe,2016,19.8,14.7,26
+Europe,2015,19.7,14.9,25.6
+Europe,2014,19.7,15,25.4
+Europe,2013,19.8,15.1,25.2
+Europe,2012,19.9,15.4,25.3
+Europe,2011,20,15.6,25.4
+Europe,2010,20.3,15.8,25.6
+Europe,2009,20.6,16.2,25.8
+Europe,2008,20.9,16.6,26.3
+Europe,2007,21.4,16.9,26.6
+Europe,2006,21.8,17.4,27.1
+Europe,2005,22.2,17.8,27.5
+Europe,2004,22.7,18.3,27.8
+Europe,2003,23.2,18.7,28.4
+Europe,2002,23.7,19.1,28.9
+Europe,2001,24.3,19.6,29.6
+Europe,2000,24.9,20.1,30.2
+Eastern Mediterranean,2019,42.7,35.5,49.7
+Eastern Mediterranean,2018,42.8,36.4,49.2
+Eastern Mediterranean,2017,43.1,37.3,48.7
+Eastern Mediterranean,2016,43.3,38.1,48.4
+Eastern Mediterranean,2015,43.7,38.8,48.5
+Eastern Mediterranean,2014,44.1,39.3,48.6
+Eastern Mediterranean,2013,44.5,39.8,49
+Eastern Mediterranean,2012,45.1,40.4,49.5
+Eastern Mediterranean,2011,45.6,40.6,50.2
+Eastern Mediterranean,2010,46,41.1,50.8
+Eastern Mediterranean,2009,46.5,41.6,51.4
+Eastern Mediterranean,2008,47.1,42,52
+Eastern Mediterranean,2007,47.5,42.4,52.5
+Eastern Mediterranean,2006,47.9,42.7,52.9
+Eastern Mediterranean,2005,48.3,43.2,53.2
+Eastern Mediterranean,2004,48.6,43.7,53.4
+Eastern Mediterranean,2003,49,44.1,53.7
+Eastern Mediterranean,2002,49.4,44.4,54.1
+Eastern Mediterranean,2001,49.9,44.9,54.7
+Eastern Mediterranean,2000,50.7,45.5,55.7
+Western Pacific,2019,19.4,10.8,31.7
+Western Pacific,2018,19.1,11,31
+Western Pacific,2017,19,11.2,30.1
+Western Pacific,2016,18.9,11.4,29.7
+Western Pacific,2015,18.8,11.6,29.2
+Western Pacific,2014,18.9,11.8,28.9
+Western Pacific,2013,19,12.1,28.7
+Western Pacific,2012,19.2,12.3,28.7
+Western Pacific,2011,19.6,12.7,28.8
+Western Pacific,2010,20,13.1,29.4
+Western Pacific,2009,20.6,13.6,29.9
+Western Pacific,2008,21.2,14.2,30.5
+Western Pacific,2007,22,14.8,31.1
+Western Pacific,2006,22.8,15.4,32
+Western Pacific,2005,23.6,16,32.9
+Western Pacific,2004,24.5,16.7,34
+Western Pacific,2003,25.4,17.2,35.2
+Western Pacific,2002,26.4,17.8,36.6
+Western Pacific,2001,27.5,18.6,38
+Western Pacific,2000,28.7,19.6,39.4
