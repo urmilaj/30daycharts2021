@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Road Traffic Deaths</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 750px;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 5: Uncertainties. Day 26: Trends.</header>
+    <br>
+    <p>A chart visualizing road traffic deaths for male and female demographic based on their income group.</p>
+    <br>
+    <div class="chart"></div>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+          width = 760 - margin.right - margin.left,
+          height = 500 - margin.top - margin.bottom;
+             
+    d3.csv("data/trends.csv", d => {
+      return {
+        Income_Group: d["World Bank income group"],
+        Year: +d.Year,
+        maleMedian: +d.maleMedian,
+        maleLow: +d.maleLow,
+        maleHigh: +d.maleHigh,
+        femaleMedian: +d.femaleMedian,
+        femaleLow: +d.femaleLow,
+        femaleHigh: +d.femaleHigh
+      }
+    }).then(function(data){
+      const group = d3.group(data,d => d.Income_Group)
+
+      const formatYear = d3.timeParse("%Y")
+
+      const x = d3.scaleTime()
+        .domain(d3.extent(data,d=>formatYear(d.Year)))
+        .range([margin.left,width-margin.right])
+
+      const xAxis = g => g.attr("transform",`translate(0,${height-margin.bottom})`)
+        .call(d3.axisBottom(x))
+
+      const y = d3.scaleLinear()
+        .domain([0,50])
+        .range([height-margin.bottom,margin.top])
+
+      const yAxis = g => g.attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y))
+
+      const maleLine = d3.line()
+        .x(d=>x(formatYear(d.Year)))
+        .y(d=>y(d.maleMedian))
+
+      const femaleLine = d3.line()
+        .x(d=>x(formatYear(d.Year)))
+        .y(d=>y(d.femaleMedian))
+
+      const maleArea = d3.area()
+        .x(d=>x(formatYear(d.Year)))
+        .y0(d=>y(d.maleHigh))
+        .y1(d=>y(d.maleLow))
+
+      const femaleArea = d3.area()
+        .x(d=>x(formatYear(d.Year)))
+        .y0(d=>y(d.femaleHigh))
+        .y1(d=>y(d.femaleLow))
+
+      const color = d3.scaleOrdinal()
+        .range(["#e3e077","#f19087"])
+
+        chart = (data, title) => {
+
+          const svg = d3.select(".chart")
+            .append("svg")
+            .attr("width",width+margin.left+margin.right)
+            .attr("height",height+margin.top+margin.bottom)
+            .style("background-color","#7b81ad")
+            .append("g")
+            .attr("transform",`translate(${margin.left},${margin.top})`)
+  
+          svg.append("text")
+            .attr("x",width/2)
+            .attr("y",40)
+            .text(title)
+            .style("text-anchor","middle")
+            .style("font-size","1.5em")
+            .style("fill","white")
+            .style("font-family","Times New Roman")
+            .style("font-weight","bold")
+          
+          svg.append("text")
+            .attr("x",width/2)
+            .attr("y",height-10)
+            .style("text-anchor","middle")
+            .style("fill","white")
+            .style("font-family","Times New Roman")
+            .text("Year")
+          
+          svg.append("text")
+            .attr("x",-height/2-120)
+            .attr("y",10)
+            .text("Estimated death rate per 100,000 pop.")
+            .attr("transform","rotate(-90)")
+            .style("font-family","Times New Roman")
+            .style("fill","white");
+  
+          svg.append("g")
+            .call(xAxis)
+            .attr("color","white")
+          
+          svg.append("g")
+            .call(yAxis)
+            .attr("color","white")
+          
+          svg.append("path")
+            .datum(data)
+            .attr("d",maleArea)
+            .attr("fill","#e3e077")
+            .attr("stroke","none")
+            .style("opacity",0.4)
+          
+          svg.append("path")
+            .datum(data)
+            .attr("d",maleLine)
+            .attr("fill","none")
+            .attr("stroke","#e3e077")
+            .attr("stroke-width",1.5)
+          
+          svg.append("path")
+            .datum(data)
+            .attr("d",femaleArea)
+            .attr("fill","#f19087")
+            .attr("stroke","none")
+            .style("opacity",0.4)
+  
+          svg.append("path")
+            .datum(data)
+            .attr("d",femaleLine)
+            .attr("fill","none")
+            .attr("stroke","#f19087")
+            .attr("stroke-width",1.5)
+  
+          const legend = svg.append("g")
+                            .attr("transform",`translate(${width-margin.right-10},20)`)
+  
+          legend
+            .selectAll("rect")
+            .data(["Male","Female"])
+            .join("rect")
+            .attr("x",-35)
+            .attr("y",(d,i)=>i*15)
+            .attr("width",10)
+            .attr("height",10)
+            .attr("fill",d=>color(d))
+            
+          legend
+            .selectAll("text")
+            .data(["Male","Female"])
+            .join("text")
+            .text(d=>d)
+            .attr("x",-20)
+            .attr("y",(d,i)=>i*15+10)
+            .style("fill","white")
+            .style("font-size","0.85em")
+        }
+
+        chart(group.get("Low-income"), "Low Income");
+        chart(group.get("Lower-middle-income"),"Lower Middle Income");
+        chart(group.get("Upper-middle-income"),"Upper Middle Income");
+        chart(group.get("High-income"),"High Income");
+
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="https://apps.who.int/gho/data/view.main.RoadTrafficDeathWB?lang=en" target="_blank">
+              World Health Organisation
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
