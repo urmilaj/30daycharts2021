@@ -42,3 +42,4 @@ The purpose of this repository is for recreating the charts in vanilla format.
 
 # Week 5 topic: Uncertainties.
 - Day 25: Demographic [Anaemia In Children](anaemia.html)
+- Day 26: Trends [Road Traffic Deaths](traffic.html)
