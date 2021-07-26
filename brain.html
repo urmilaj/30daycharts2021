@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Brain Weight</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 900px;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <header>Week 5: Uncertainties. Day 29: Deviations.</header>
+    <br>
+    <p>A chart showing distrbutions of brain weight in grams for males and females.</p>
+    <br>
+    <div class="chart"></div>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+          width = 900 - margin.right - margin.left,
+          height = 550 - margin.top - margin.bottom;
+            
+    d3.csv("data/brain.csv", d => {
+      return {
+        Gender: +d.Gender,
+        Age: +d.Age,
+        Head_Size: +d.Head_Size,
+        Brain_Weight: +d.Brain_Weight
+      }
+    }).then(function(data){
+      const maleW = data.filter(d=>d.Gender==1).map(d=>d.Brain_Weight)
+      const femaleW = data.filter(d=>d.Gender==2).map(d=>d.Brain_Weight)
+      const maleBrainWeight = d3.bin().thresholds(40)(maleW)
+      const femaleBrainWeight = d3.bin().thresholds(40)(femaleW)
+
+      chart = (data,color,text,axis) => {
+
+        const svg = d3.select(".chart")
+          .append("svg")
+          .attr("width",width+margin.left+margin.right)
+          .attr("height",height+margin.top+margin.bottom)
+          .style("background-color","#eceadb")
+          .append("g")
+          .attr("transform",`translate(${margin.left},${margin.top})`)
+  
+        const x = d3.scaleLinear()
+          .domain([data[0].x0, data[data.length - 1].x1])
+          .range([margin.left,width-margin.right])
+        
+        const y = d3.scaleLinear()
+          .domain([0, 10]).nice()
+          .range([height - margin.bottom, margin.top])
+        
+        const xAxis = g => g.attr("transform",`translate(0,${height-margin.bottom})`)
+          .call(d3.axisBottom(x))
+        
+        const yAxis = g => g.attr("transform", `translate(${margin.left},0)`)
+          .call(d3.axisLeft(y))
+          .call(g => g.select(".domain").remove())
+  
+        svg.append("text")
+          .attr("x",width/2)
+          .attr("y",0)
+          .text(text)
+          .style("text-anchor","middle")
+          .style("font-size","1.5em")
+          .style("fill",color)
+          .style("font-family","Times New Roman")
+          .style("font-weight","bold")
+        
+        svg.append("text")
+          .attr("x",width/2)
+          .attr("y",height-15)
+          .style("text-anchor","middle")
+          .style("font-size","1.1em")
+          .style("font-family","Times New Roman")
+          .text(axis)
+        
+        svg.append("g")
+            .attr("fill",color)
+          .selectAll("rect")
+          .data(data)
+          .join("rect")
+            .attr("x", d => x(d.x0) + 1)
+            .attr("width", d => Math.max(0, x(d.x1) - x(d.x0) - 1))
+            .attr("y", d => y(d.length))
+            .attr("height", d => y(0) - y(d.length))
+          
+        svg.append("g")
+            .call(xAxis);
+        
+        svg.append("g")
+            .call(yAxis);
+      }
+      chart(maleBrainWeight,"#fca174","Male Brain Weight","Brain weight in grams")
+      chart(femaleBrainWeight,"#7b5598","Female Brain Weight","Brain weight in grams")
+
+    })
+    </script>
+    <br>
+    <footer>
+      <p>Data Credit:
+        <a href="http://users.stat.ufl.edu/~winner/datasets.html" target="_blank">
+          Larry Winner's Miscellany dataset on brain weight, head size and gender.
+        </a>
+    </p>
+    </footer>
+  </body>
+</html>
