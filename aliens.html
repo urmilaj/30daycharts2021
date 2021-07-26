@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>UFOs and Alien Abductions</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 750px;
+      }
+
+      .alienTooltip{
+        text-align: center;
+        max-width: 200px;
+        position: fixed;
+        background-color: white;
+        padding: 2px;
+        pointer-events: none;
+        border:solid;
+      }
+
+      .annotation-note-bg{
+        fill:white;
+        fill-opacity:0.9;
+      }
+
+      .annotation-note-label{
+        fill: black;
+
+      }
+
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  </head>
+  <body>
+    <header>Week 5: Uncertainties. Day 27: Educational.</header>
+    <br>
+    <p>Alien Abductions over the years from 1865 - 2004. Abductions have a white fill with annotations. Hover over the other circles for more information.</p>
+    <br>
+    <div class="viz"></div>
+    <br>
+    <script>
+    
+    const margin = { top: 50, left: 50, bottom: 50, right: 50 },
+          width = 900 - margin.right - margin.left,
+          height = 650 - margin.top - margin.bottom;
+
+    const alienTooltip = d3.select("body")
+      .append("div")
+      .attr("class","alienTooltip")
+      .style("visibility","hidden")
+                  
+    d3.csv("data/alienData.csv", d => {
+      return {
+        Period: d.Period,
+        Year: +d.Year,
+        Name: d.Name,
+        Location: d.Location,
+        Physical_Effects: d.Physical_Effects,
+        Multimedia: +d.Multimedia,
+        ET_Contact: +d.ET_Contact,
+        Abduction: +d.Abduction,
+        dx: +d.dx,
+        dy: +d.dy
+      }
+    }).then(function(data){
+      console.log(data)
+      const group = d3.group(data,d=>d.Period)
+
+      const radius = 6.5,
+      padding = 2;
+
+      chart = (data,height, chartTitle)=> {
+
+        const svg = d3.select(".viz")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","#51244f")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+
+        svg.append("text")
+          .attr("x",width/2)
+          .attr("y",30)
+          .text(chartTitle)
+          .style("text-anchor","middle")
+          .style("font-size","1.3em")
+          .style("fill","#eaaa87")
+          .style("font-family","Times New Roman")
+          .style("font-weight","bold")
+   
+        const formatYear = d3.timeParse("%Y")
+      
+        const x = d3.scaleTime()
+          .domain(d3.extent(data,d=>formatYear(d.Year)))
+          .range([margin.left,width-margin.right])
+  
+        const circle = svg.selectAll("circle")
+          .data(data)
+          .join("circle")
+          .attr("r",radius)
+          .attr("fill",d=>d.Abduction==1?"white":"none")
+          .attr("stroke","#eaaa87")
+          .attr("stroke-width",1.8)
+          .on("mousemove",function (event,d){
+          d3.select(this).style("opacity",1).attr("stroke-width",3)
+          
+          alienTooltip.transition()
+                        .duration(200)
+                        .style("visibility","visible")
+
+          alienTooltip.html("<h3>"+d.Name+", "+d.Location+"</h3>")
+                        .style("transform","translateY(-55%)")  
+                        .style("left",(event.x)+10+"px")
+                        .style("top",(event.y)-15+"px")})
+        .on("mouseout",function (event,d){
+          d3.select(this).style("opacity",1).attr("stroke-width",2)
+          alienTooltip.transition().style("visibility","hidden")
+        })
+  
+        const simulation = d3.forceSimulation()
+          .force("x",d3.forceX(d=>x(formatYear(d.Year))).strength(1.8))
+          .force("y",d3.forceY(height/2))
+          .force("collide",d3.forceCollide(radius+padding).strength(2))
+                       
+  
+        simulation.nodes(data)
+          .on("tick",d=>circle.attr("cx",(d,i)=>d.x)
+                              .attr("cy",(d,i)=>d.y))
+          .on("end",tooltip)   
+  
+        function tooltip(d) {
+          let labels = data.filter(d=>d.Abduction==1).map((d,i)=>{
+            return {
+              x:d.x,
+              y:d.y,
+              dx:d.dx,
+              dy:d.dy,
+              color:"#eaaa87",
+              note:{
+              label:d.Name,
+            }
+            }
+          })
+
+          const type = d3.annotationCustomType(
+            d3.annotationCalloutElbow, 
+            {"className":"custom",
+              "connector":{"end":"dot"},
+              "note":{"lineType":"horizontal",
+              "align":"middle"}})
+    
+        let makeAnnot = d3.annotation()
+          .type(type)
+          .textWrap(120)
+          .annotations(labels)
+    
+        svg.append("g")
+          .call(makeAnnot)
+  }
+  
+        const xAxis = g => g.attr("transform", `translate(0,${height-margin.bottom})`)
+          .call(d3.axisBottom(x))
+  
+ 
+        svg.append("g")
+          .call(xAxis)
+          .attr("color","#eaaa87")
+          .style("font-size","0.7em")
+    }
+    chart(group.get("1800's"),160,"1865 - 1895")
+    chart(group.get("1930's"),150,"1930's")
+    chart(group.get("1940's"),180,"1940's")
+    chart(group.get("1950's"),250,"1950's")
+    chart(group.get("1960's"),350,"1960's")
+    chart(group.get("1970's"),400, "1970's")
+    chart(group.get("1980's"),350, "1980's")
+    chart(group.get("1990's"),260, "1990's")
+    chart(group.get("2000's"),230,"2000's")
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="http://users.stat.ufl.edu/~winner/datasets.html" target="_blank">
+              Larry Winner's Miscellany dataset on UFO's and alien abductions.
+            </a>
+        </p>
+    </footer>
+  </body>
+</html>
