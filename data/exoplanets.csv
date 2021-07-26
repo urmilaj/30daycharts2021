@@ -1,0 +1,41 @@
+﻿Name,Type,Mass,Radius,Flux,T,Period,Distance,ESI
+TOI-700 d,M-Warm Terran,—,1.14,0.87,246,37.4,101,0.93
+K2-72 e,M-Warm Terran,—,1.29,1.11,261,24.2,217,0.9
+TRAPPIST-1 d,M-Warm Subterran,0.41,0.77,1.14,263,4,41,0.9
+Kepler-1649 c,M-Warm Terran,—,1.06,0.75,237,19.5,301,0.9
+TRAPPIST-1 e,M-Warm Terran,0.62,0.92,0.66,230,6.1,41,0.85
+Kepler-442 b,K-Warm Terran,—,1.35,0.7,233,112.3,1193,0.84
+Kepler-1229 b,M-Warm Terran,—,1.4,0.49,213,86.8,865,0.73
+TRAPPIST-1 f,M-Warm Terran,0.68,1.04,0.38,200,9.2,41,0.68
+Kepler-62 f,K-Warm Terran,—,1.41,0.41,204,267.3,981,0.68
+Kepler-186 f,M-Warm Terran,—,1.17,0.29,188,129.9,579,0.61
+TRAPPIST-1 g,M-Warm Terran,1.34,1.13,0.26,181,12.4,41,0.58
+Kepler-452 b,G-Warm Superterran,—,1.63,1.11,261,384.8,1799,0.83
+Kepler-62 e,K-Warm Superterran,—,1.61,1.15,264,122.4,981,0.83
+Kepler-1652 b,M-Warm Superterran,—,1.6,0.84,244,38.1,822,0.83
+Kepler-1544 b,K-Warm Superterran,—,1.78,0.9,248,168.8,1092,0.8
+Kepler-296 e,M-Warm Superterran,—,1.52,1.5,276,34.1,737,0.8
+Kepler-283 c,K-Warm Superterran,—,1.82,0.9,248,92.7,1526,0.79
+K2-296 b,M-Warm Superterran,—,1.87,1.15,264,28.2,519,0.78
+Kepler-1410 b,K-Warm Superterran,—,1.78,1.34,274,60.9,1196,0.78
+K2-3 d,M-Warm Superterran,2.8,1.65,1.5,282,44.6,144,0.78
+Kepler-1638 b,G-Warm Superterran,—,1.87,1.39,276,259.3,4973,0.76
+Kepler-296 f,M-Warm Superterran,—,1.8,0.66,225,63.3,737,0.75
+Kepler-440 b,K-Warm Superterran,—,1.91,1.44,273,101.1,981,0.75
+Kepler-705 b,M-Warm Superterran,—,2.11,0.83,243,56.1,903,0.74
+Kepler-1653 b,K-Warm Superterran,—,2.17,1.04,258,140.3,2461,0.74
+Kepler-1606 b,G-Warm Superterran,—,2.07,1.41,277,196.4,2710,0.73
+Kepler-1090 b,G-Warm Superterran,—,2.25,1.2,267,198.7,2800,0.72
+Kepler-61 b,K-Warm Superterran,—,2.15,1.39,273,59.9,1092,0.72
+K2-18 b,M-Warm Superterran,8.92,2.37,1.08,257,32.9,124,0.71
+Kepler-443 b,K-Warm Superterran,—,2.35,0.89,247,177.7,2615,0.71
+Kepler-1701 b,K-Warm Superterran,—,2.22,1.37,275,169.1,1904,0.71
+Kepler-22 b,G-Warm Superterran,—,2.38,1.1,261,289.9,635,0.71
+LHS 1140 b,M-Warm Superterran,6.98,1.73,0.5,214,24.7,49,0.7
+Kepler-1552 b,K-Warm Superterran,—,2.47,1.1,261,184.8,2507,0.7
+K2-9 b,M-Warm Superterran,—,2.25,1.45,279,18.4,270,0.7
+Kepler-1540 b,K-Warm Superterran,—,2.49,0.92,250,125.4,799,0.7
+Kepler-1632 b,F-Warm Superterran,—,2.47,1.27,270,448.3,2337,0.69
+Kepler-298 d,K-Warm Superterran,—,2.5,1.29,271,77.5,1689,0.68
+K2-288 B b,M-Warm Superterran,—,1.91,0.44,207,31.4,214,0.65
+Kepler-174 d,K-Warm Superterran,—,2.19,0.43,206,247.4,1254,0.61
