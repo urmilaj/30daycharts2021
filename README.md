@@ -45,3 +45,4 @@ The purpose of this repository is for recreating the charts in vanilla format.
 - Day 26: Trends [Road Traffic Deaths](traffic.html)
 - Day 27: Educational [UFOs and Alien Abductions](aliens.html)
 - Day 28: Future [Potentially Habitable Exoplanets](exoplanets.html)
+- Day 29: Deviations [Brain Weight](brain.html)
