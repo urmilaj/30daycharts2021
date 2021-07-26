@@ -46,3 +46,4 @@ The purpose of this repository is for recreating the charts in vanilla format.
 - Day 27: Educational [UFOs and Alien Abductions](aliens.html)
 - Day 28: Future [Potentially Habitable Exoplanets](exoplanets.html)
 - Day 29: Deviations [Brain Weight](brain.html)
+- Day 30: 3D [Virtual Reality Gaming Revenue](gaming.html)
