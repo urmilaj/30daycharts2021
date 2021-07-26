@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Potentially Habitable Exoplanets</title>
+    <style>
+      header {
+          margin: auto;
+          text-align: center;
+          font-size: 2.5em;
+          }
+  
+      svg {
+          display: block;
+          margin: auto;
+      }
+
+      p {
+          text-align: center;
+          margin: auto;
+          font-size: 1.3em;
+          width: 900px;
+      }
+
+      .annotation-note-title, .annotation-note-label{
+        font-size: 1em;
+        margin:auto;
+        text-align:center;
+        }
+
+      .annotation-subject{
+      display:none;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+  </head>
+  <body>
+    <header>Week 5: Uncertainties. Day 28: Future.</header>
+    <br>
+    <p>A visualization showing potentially habitable exoplanets based on mass, water etc. This visualization shows an orange circle ring representing the exoplanets radius in difference to that of the earth. Some exoplanets are as big as Earth whereas some are much larger, with few smaller than Earth.</p>
+    <br>
+    <script>
+    
+    const margin = { top: 80, left: 50, bottom: 50, right: 50 },
+          width = 950 - margin.right - margin.left,
+          height = 2000 - margin.top - margin.bottom;
+
+    const svg = d3.select("body")
+                  .append("svg")
+                  .attr("width",width+margin.left+margin.right)
+                  .attr("height",height+margin.top+margin.bottom)
+                  .style("background-color","black")
+                  .append("g")
+                  .attr("transform",`translate(${margin.left},${margin.top})`)
+                  
+    Promise.all([d3.csv("data/exoplanets.csv"),
+    d3.image("data/earth-globe.png")]).then(function(initialize){
+
+      const data = initialize[0]
+
+      const img = initialize[1]
+
+      const x = d3.scaleLinear()
+        .domain([0,5])
+        .range([margin.left,width-margin.right])
+
+      const y = d3.scaleLinear()
+        .domain([0,8])
+        .range([margin.top,height-margin.bottom])
+
+      const radius = 20,
+      color = "#df691f";
+
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",0)
+        .text("Potentially Habitable Exoplanets")
+        .style("fill","#df691f")
+        .style("text-anchor","middle")
+        .style("font-size","2em")
+        .style("font-weight","bold")
+  
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",25)
+        .text("Week 5 :Uncertainties. Day 28 : Future.")
+        .style("fill","#df691f")
+        .style("text-anchor","middle")
+        .style("font-size","1.2em")
+  
+      svg.append("text")
+        .attr("x",width/2)
+        .attr("y",45)
+        .text("#30DayChartChallenge")
+        .style("fill","#df691f")
+        .style("text-anchor","middle")
+        .style("font-size","1em")
+  
+      const g = svg.append("g")
+        .attr("transform",`translate(${margin.left+30},${margin.top+80})`)
+  
+      g.append("defs")
+        .append("filter")
+        .attr("id","glow")
+        .append("feGaussianBlur")
+        .attr("stdDeviation","3.5")
+        .attr("result","coloredBlur")
+        .append("feMerge")
+        .append("feMergeNode")
+        .attr("in","coloredBlur")
+        .append("feMergeNode")
+        .attr("in","SourceGraphic")
+
+      g.selectAll("image")
+        .data(data)
+        .join("image")
+        .attr("transform",(d,i)=>`translate(${x(i%5)},${y(Math.floor(i/5))}) scale(0.077)`)
+        .attr("xlink:href",img.src)
+        .attr("x",-250)
+        .attr("y",-250)
+        .attr("opacity",0.3)
+  
+      g.selectAll("circle")
+        .data(data)
+        .join("circle")
+        .attr("class","exo")
+        .attr("transform",(d,i)=>`translate(${x(i%5)},${y(Math.floor(i/5))})`)
+        .attr("r",(d,i)=>d.Radius*radius)
+        .attr("stroke",color)
+        .attr("stroke-width",2)
+        .attr("fill","none")
+        
+      g.selectAll(".exo")
+        .style("filter","url(#glow)")
+      
+      g.selectAll("circles")
+        .data(data)
+        .join("circle")
+        .attr("transform",(d,i)=>`translate(${x(i%5)},${y(Math.floor(i/5))})`)
+        .attr("r",(d,i)=>d.Radius*radius)
+        .attr("stroke",color)
+        .attr("stroke-width",2)
+        .attr("fill","none")
+
+      const annotations = data.map((d,i)=>{
+        return {
+          x:x(i%5),
+          y:y(Math.floor(i/5)),
+          dx:0,
+          dy:-60,
+          color:color,
+          note:{
+            title: d.Name,
+            label: d.Distance+" lightyears away."
+          },
+          subject:{
+            radius:radius*d.Radius
+          }
+        }
+      })
+  
+      const type = d3.annotationCustomType(
+        d3.annotationCalloutCircle,
+        {"className":"custom",
+        "note":{
+        "align":"middle"}})
+  
+      const makeAnnotations = d3.annotation()
+        .type(type)
+        .textWrap(110)
+        .annotations(annotations)
+  
+      svg.append("g")
+        .attr("transform",`translate(${margin.left+30},${margin.top+80})`)
+        .call(makeAnnotations)
+    })
+    </script>
+    <br>
+    <footer>
+        <p>Data Credit:
+            <a href="http://phl.upr.edu/projects/habitable-exoplanets-catalog" target="_blank">
+              Planetary Habitability Laboratory
+            </a>
+        </p>
+        <p>Earth Image Credit:
+          <a href="https://www.flaticon.com/free-icon/earth-globe_616616?related_id=616450&origin=search" target="_blank">
+            Freepik via flaticon
+          </a>
+      </p>
+    </footer>
+  </body>
+</html>
